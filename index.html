@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="hy">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Եռանկյունաչափական արժեքների աղյուսակ</title>
+  <style>
+    :root {
+      --bg: #f8f5ff;
+      --card: rgba(255, 255, 255, 0.86);
+      --card-solid: #ffffff;
+      --text: #1d1530;
+      --muted: #6d6282;
+      --purple: #7a3ab0;
+      --purple-2: #a46be0;
+      --purple-soft: #efe2ff;
+      --blue-soft: #e8f2ff;
+      --green-soft: #e8fff2;
+      --danger-soft: #fff0f3;
+      --line: rgba(72, 45, 105, 0.18);
+      --shadow: 0 24px 70px rgba(79, 45, 115, 0.18);
+      --radius: 28px;
+      --cell-radius: 18px;
+    }
+
+    [data-theme="dark"] {
+      --bg: #120d1e;
+      --card: rgba(31, 23, 48, 0.82);
+      --card-solid: #211734;
+      --text: #fbf8ff;
+      --muted: #c4b9d7;
+      --purple: #c38bff;
+      --purple-2: #9b62dc;
+      --purple-soft: rgba(141, 88, 210, 0.22);
+      --blue-soft: rgba(76, 148, 255, 0.16);
+      --green-soft: rgba(62, 211, 129, 0.15);
+      --danger-soft: rgba(255, 97, 135, 0.13);
+      --line: rgba(255, 255, 255, 0.12);
+      --shadow: 0 24px 70px rgba(0, 0, 0, 0.35);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 8% 8%, rgba(188, 137, 255, 0.28), transparent 34%),
+        radial-gradient(circle at 92% 12%, rgba(115, 172, 255, 0.18), transparent 30%),
+        linear-gradient(135deg, var(--bg), var(--bg));
+      overflow-x: hidden;
+    }
+
+    .page {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 28px 0 44px;
+    }
+
+    .hero {
+      position: relative;
+      padding: 34px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--card);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      backdrop-filter: blur(16px);
+    }
+
+    .hero::before,
+    .hero::after {
+      content: "";
+      position: absolute;
+      border-radius: 999px;
+      pointer-events: none;
+    }
+
+    .hero::before {
+      width: 250px;
+      height: 250px;
+      right: -90px;
+      top: -105px;
+      background: linear-gradient(135deg, rgba(151, 85, 225, 0.30), rgba(255, 255, 255, 0));
+    }
+
+    .hero::after {
+      width: 150px;
+      height: 150px;
+      left: 42%;
+      bottom: -90px;
+      background: linear-gradient(135deg, rgba(92, 177, 255, 0.20), rgba(255, 255, 255, 0));
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      padding: 9px 14px;
+      border-radius: 999px;
+      background: var(--purple-soft);
+      color: var(--purple);
+      font-weight: 800;
+      letter-spacing: 0.02em;
+      border: 1px solid var(--line);
+    }
+
+    .badge-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--purple);
+      box-shadow: 0 0 0 6px rgba(122, 58, 176, 0.13);
+    }
+
+    .actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    button {
+      border: 0;
+      cursor: pointer;
+      color: var(--text);
+      background: var(--card-solid);
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 10px 14px;
+      font-weight: 800;
+      box-shadow: 0 10px 24px rgba(57, 32, 92, 0.08);
+      transition: transform 0.18s ease, border-color 0.18s ease, background 0.18s ease;
+    }
+
+    button:hover { transform: translateY(-2px); border-color: rgba(122, 58, 176, 0.42); }
+    button:active { transform: translateY(0); }
+
+    h1 {
+      margin: 28px 0 12px;
+      max-width: 780px;
+      font-size: clamp(32px, 5vw, 64px);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero p {
+      margin: 0;
+      max-width: 760px;
+      color: var(--muted);
+      font-size: clamp(16px, 2vw, 20px);
+      line-height: 1.6;
+      position: relative;
+      z-index: 1;
+    }
+
+    .quick-formulas {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 22px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .quick-card {
+      border-radius: 20px;
+      border: 1px solid var(--line);
+      background: var(--card-solid);
+      padding: 16px;
+      min-height: 100px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .quick-card span:first-child {
+      color: var(--muted);
+      font-weight: 800;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .quick-card span:last-child {
+      font-size: 26px;
+      font-weight: 900;
+      color: var(--purple);
+      font-family: Georgia, "Times New Roman", serif;
+    }
+
+    .section-title {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 18px;
+      margin: 34px 0 16px;
+    }
+
+    .section-title h2 {
+      margin: 0;
+      font-size: clamp(24px, 3vw, 36px);
+      letter-spacing: -0.03em;
+    }
+
+    .section-title p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.45;
+      max-width: 560px;
+    }
+
+    .table-card {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--card);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      backdrop-filter: blur(16px);
+    }
+
+    .table-tools {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px;
+      gap: 12px;
+      border-bottom: 1px solid var(--line);
+      background: linear-gradient(90deg, var(--purple-soft), transparent);
+    }
+
+    .table-tools strong {
+      font-size: 18px;
+    }
+
+    .scroll-hint {
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+      padding: 16px;
+    }
+
+    table {
+      width: 100%;
+      min-width: 980px;
+      border-collapse: separate;
+      border-spacing: 8px;
+      table-layout: fixed;
+    }
+
+    th, td {
+      text-align: center;
+      vertical-align: middle;
+      border-radius: var(--cell-radius);
+      padding: 14px 12px;
+      background: var(--card-solid);
+      border: 1px solid var(--line);
+      transition: transform 0.18s ease, background 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+    }
+
+    th {
+      color: var(--purple);
+      font-weight: 900;
+      font-size: 18px;
+    }
+
+    td {
+      font-size: 24px;
+      font-weight: 850;
+      min-height: 70px;
+    }
+
+    .label {
+      width: 150px;
+      color: var(--purple);
+      font-size: 24px;
+      font-family: Georgia, "Times New Roman", serif;
+      background: linear-gradient(135deg, var(--purple-soft), var(--card-solid));
+    }
+
+    .head-label {
+      color: var(--text);
+      font-family: inherit;
+      font-size: 17px;
+      text-align: left;
+      background: var(--card-solid);
+    }
+
+    .alpha-head {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 34px;
+      color: var(--purple);
+      background: linear-gradient(135deg, var(--purple-soft), var(--blue-soft));
+    }
+
+    .angle {
+      color: var(--purple);
+      font-size: 25px;
+    }
+
+    .rad {
+      color: var(--purple);
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 25px;
+    }
+
+    .undefined {
+      color: var(--muted);
+      font-size: 32px;
+    }
+
+    .frac {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      line-height: 1.02;
+      vertical-align: middle;
+      font-family: Georgia, "Times New Roman", serif;
+      font-weight: 900;
+    }
+
+    .frac .top {
+      border-bottom: 2px solid currentColor;
+      padding: 0 5px 3px;
+    }
+
+    .frac .bottom {
+      padding: 3px 5px 0;
+    }
+
+    .math {
+      font-family: Georgia, "Times New Roman", serif;
+      font-weight: 900;
+    }
+
+    .highlight-row td,
+    .highlight-row th.label {
+      background: var(--green-soft);
+      border-color: rgba(62, 211, 129, 0.35);
+    }
+
+    .highlight-col {
+      background: var(--blue-soft) !important;
+      border-color: rgba(76, 148, 255, 0.34) !important;
+      box-shadow: 0 8px 22px rgba(54, 101, 190, 0.10);
+      transform: translateY(-2px);
+    }
+
+    .mini-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .note {
+      padding: 18px;
+      border-radius: 22px;
+      border: 1px solid var(--line);
+      background: var(--card-solid);
+      line-height: 1.5;
+    }
+
+    .note strong {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--purple);
+    }
+
+    .mobile-cards {
+      display: none;
+      margin-top: 24px;
+      grid-template-columns: 1fr;
+      gap: 14px;
+    }
+
+    .angle-card {
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      background: var(--card-solid);
+      padding: 16px;
+      box-shadow: 0 16px 34px rgba(57, 32, 92, 0.08);
+    }
+
+    .angle-card h3 {
+      margin: 0 0 12px;
+      color: var(--purple);
+      font-size: 24px;
+    }
+
+    .angle-card dl {
+      display: grid;
+      grid-template-columns: 92px 1fr;
+      gap: 8px 12px;
+      margin: 0;
+      align-items: center;
+    }
+
+    .angle-card dt {
+      color: var(--muted);
+      font-weight: 900;
+      font-family: Georgia, "Times New Roman", serif;
+    }
+
+    .angle-card dd {
+      margin: 0;
+      font-size: 22px;
+      font-weight: 900;
+    }
+
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: 24px;
+      transform: translateX(-50%) translateY(120px);
+      padding: 12px 18px;
+      border-radius: 999px;
+      background: var(--text);
+      color: var(--bg);
+      font-weight: 900;
+      box-shadow: var(--shadow);
+      transition: transform 0.24s ease;
+      z-index: 10;
+    }
+
+    .toast.show { transform: translateX(-50%) translateY(0); }
+
+    @media (max-width: 900px) {
+      .quick-formulas, .mini-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .section-title { align-items: start; flex-direction: column; }
+    }
+
+    @media (max-width: 680px) {
+      .page { width: min(100% - 20px, 1180px); padding-top: 10px; }
+      .hero { padding: 22px; }
+      .topbar { align-items: flex-start; flex-direction: column; }
+      .actions { justify-content: flex-start; }
+      .quick-formulas, .mini-grid { grid-template-columns: 1fr; }
+      .table-card { border-radius: 22px; }
+      .table-tools { align-items: flex-start; flex-direction: column; }
+      .mobile-cards { display: grid; }
+    }
+
+    @media print {
+      body { background: #fff; }
+      .actions, .quick-formulas, .section-title p, .mini-grid, .mobile-cards, .toast { display: none !important; }
+      .page { width: 100%; padding: 0; }
+      .hero, .table-card { box-shadow: none; border: 1px solid #bbb; }
+      .hero { margin-bottom: 14px; }
+      th, td { color: #111 !important; background: #fff !important; border: 1px solid #bbb; }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero">
+      <div class="topbar">
+        <div class="badge"><span class="badge-dot"></span><span>Exact values table</span></div>
+        <div class="actions">
+          <button id="langBtn" type="button">Հայերեն / Русский</button>
+          <button id="themeBtn" type="button">🌙 Dark</button>
+          <button id="copyBtn" type="button">Copy table</button>
+          <button onclick="window.print()" type="button">Print</button>
+        </div>
+      </div>
+
+      <h1 data-hy="Եռանկյունաչափական արժեքների աղյուսակ" data-ru="Таблица тригонометрических значений">Եռանկյունաչափական արժեքների աղյուսակ</h1>
+      <p data-hy="Այս աղյուսակը ցույց է տալիս հիմնական անկյունների sin, cos, tg և ctg արժեքները։ Այն հարմար է արագ կրկնելու, սովորելու և թեստերի համար։" data-ru="Эта таблица показывает значения sin, cos, tg и ctg для основных углов. Удобно для повторения, запоминания и тестов.">Այս աղյուսակը ցույց է տալիս հիմնական անկյունների sin, cos, tg և ctg արժեքները։ Այն հարմար է արագ կրկնելու, սովորելու և թեստերի համար։</p>
+
+      <div class="quick-formulas" aria-label="Important formulas">
+        <div class="quick-card"><span>Ratio</span><span>tg α = sin α / cos α</span></div>
+        <div class="quick-card"><span>Ratio</span><span>ctg α = cos α / sin α</span></div>
+        <div class="quick-card"><span>Identity</span><span>sin²α + cos²α = 1</span></div>
+        <div class="quick-card"><span>Rule</span><span>tg α · ctg α = 1</span></div>
+      </div>
+    </section>
+
+    <div class="section-title">
+      <div>
+        <h2 data-hy="Հիմնական անկյուններ" data-ru="Основные углы">Հիմնական անկյուններ</h2>
+      </div>
+      <p data-hy="Սեղմիր կամ պահիր որևէ սյունակի վրա՝ այդ անկյան արժեքները տեսնելու համար։ Բջիջները highlight են լինում, որ հեշտ լինի համեմատել։" data-ru="Наведите или нажмите на столбец, чтобы увидеть все значения выбранного угла. Ячейки подсвечиваются для удобного сравнения.">Սեղմիր կամ պահիր որևէ սյունակի վրա՝ այդ անկյան արժեքները տեսնելու համար։ Բջիջները highlight են լինում, որ հեշտ լինի համեմատել։</p>
+    </div>
+
+    <section class="table-card" aria-label="Trigonometric exact values">
+      <div class="table-tools">
+        <strong data-hy="sin, cos, tg, ctg արժեքներ" data-ru="Значения sin, cos, tg, ctg">sin, cos, tg, ctg արժեքներ</strong>
+        <span class="scroll-hint" data-hy="Փոքր էկրանների վրա աղյուսակը կարելի է տեղափոխել ձախ/աջ" data-ru="На маленьком экране таблицу можно прокручивать влево/вправо">Փոքր էկրանների վրա աղյուսակը կարելի է տեղափոխել ձախ/աջ</span>
+      </div>
+
+      <div class="table-wrap">
+        <table id="trigTable">
+          <thead>
+            <tr>
+              <th class="head-label"></th>
+              <th colspan="8" class="alpha-head">α</th>
+            </tr>
+            <tr>
+              <th class="head-label" data-hy="Աստիճաններ" data-ru="Градусы">Աստիճաններ</th>
+              <th class="angle">0°</th>
+              <th class="angle">30°</th>
+              <th class="angle">45°</th>
+              <th class="angle">60°</th>
+              <th class="angle">90°</th>
+              <th class="angle">180°</th>
+              <th class="angle">270°</th>
+              <th class="angle">360°</th>
+            </tr>
+            <tr>
+              <th class="head-label" data-hy="Ռադիաններ" data-ru="Радианы">Ռադիաններ</th>
+              <th class="rad">0</th>
+              <th class="rad"><span class="frac"><span class="top">π</span><span class="bottom">6</span></span></th>
+              <th class="rad"><span class="frac"><span class="top">π</span><span class="bottom">4</span></span></th>
+              <th class="rad"><span class="frac"><span class="top">π</span><span class="bottom">3</span></span></th>
+              <th class="rad"><span class="frac"><span class="top">π</span><span class="bottom">2</span></span></th>
+              <th class="rad">π</th>
+              <th class="rad"><span class="frac"><span class="top">3π</span><span class="bottom">2</span></span></th>
+              <th class="rad">2π</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th class="label">sin α</th>
+              <td>0</td>
+              <td><span class="frac"><span class="top">1</span><span class="bottom">2</span></span></td>
+              <td><span class="frac"><span class="top">√2</span><span class="bottom">2</span></span></td>
+              <td><span class="frac"><span class="top">√3</span><span class="bottom">2</span></span></td>
+              <td>1</td>
+              <td>0</td>
+              <td>−1</td>
+              <td>0</td>
+            </tr>
+            <tr>
+              <th class="label">cos α</th>
+              <td>1</td>
+              <td><span class="frac"><span class="top">√3</span><span class="bottom">2</span></span></td>
+              <td><span class="frac"><span class="top">√2</span><span class="bottom">2</span></span></td>
+              <td><span class="frac"><span class="top">1</span><span class="bottom">2</span></span></td>
+              <td>0</td>
+              <td>−1</td>
+              <td>0</td>
+              <td>1</td>
+            </tr>
+            <tr>
+              <th class="label">tg α</th>
+              <td>0</td>
+              <td><span class="frac"><span class="top">√3</span><span class="bottom">3</span></span></td>
+              <td>1</td>
+              <td>√3</td>
+              <td class="undefined">—</td>
+              <td>0</td>
+              <td class="undefined">—</td>
+              <td>0</td>
+            </tr>
+            <tr>
+              <th class="label">ctg α</th>
+              <td class="undefined">—</td>
+              <td>√3</td>
+              <td>1</td>
+              <td><span class="frac"><span class="top">√3</span><span class="bottom">3</span></span></td>
+              <td>0</td>
+              <td class="undefined">—</td>
+              <td>0</td>
+              <td class="undefined">—</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="mini-grid" aria-label="Learning notes">
+      <div class="note"><strong data-hy="Ինչու tg-ը երբեմն չկա" data-ru="Почему tg иногда не существует">Ինչու tg-ը երբեմն չկա</strong><span data-hy="tg α = sin α / cos α, դրա համար երբ cos α = 0, tg α չի որոշվում։" data-ru="tg α = sin α / cos α, поэтому когда cos α = 0, tg α не определён.">tg α = sin α / cos α, դրա համար երբ cos α = 0, tg α չի որոշվում։</span></div>
+      <div class="note"><strong data-hy="Ինչու ctg-ը երբեմն չկա" data-ru="Почему ctg иногда не существует">Ինչու ctg-ը երբեմն չկա</strong><span data-hy="ctg α = cos α / sin α, դրա համար երբ sin α = 0, ctg α չի որոշվում։" data-ru="ctg α = cos α / sin α, поэтому когда sin α = 0, ctg α не определён.">ctg α = cos α / sin α, դրա համար երբ sin α = 0, ctg α չի որոշվում։</span></div>
+      <div class="note"><strong data-hy="Հիշելու հուշում" data-ru="Подсказка для запоминания">Հիշելու հուշում</strong><span data-hy="30°, 45°, 60° անկյունների sin արժեքներն են √1/2, √2/2, √3/2։ cos-ի համար նույնը հակառակ հերթականությամբ է։" data-ru="Для 30°, 45°, 60° значения sin идут как √1/2, √2/2, √3/2. Для cos — в обратном порядке.">30°, 45°, 60° անկյունների sin արժեքներն են √1/2, √2/2, √3/2։ cos-ի համար նույնը հակառակ հերթականությամբ է։</span></div>
+      <div class="note"><strong data-hy="Կրկնության համար" data-ru="Для повторения">Կրկնության համար</strong><span data-hy="Ամեն անգամ ընտրիր մեկ սյունակ և փորձիր փակ աչքերով ասել sin, cos, tg, ctg արժեքները։" data-ru="Выберите один столбец и попробуйте по памяти назвать значения sin, cos, tg, ctg.">Ամեն անգամ ընտրիր մեկ սյունակ և փորձիր փակ աչքերով ասել sin, cos, tg, ctg արժեքները։</span></div>
+    </section>
+
+    <section class="mobile-cards" id="mobileCards" aria-label="Mobile angle cards"></section>
+  </main>
+
+  <div class="toast" id="toast">Copied</div>
+
+  <script>
+    const table = document.getElementById('trigTable');
+    const themeBtn = document.getElementById('themeBtn');
+    const langBtn = document.getElementById('langBtn');
+    const copyBtn = document.getElementById('copyBtn');
+    const toast = document.getElementById('toast');
+    const mobileCards = document.getElementById('mobileCards');
+
+    const values = [
+      { deg: '0°', rad: '0', sin: '0', cos: '1', tg: '0', ctg: '—' },
+      { deg: '30°', rad: 'π/6', sin: '1/2', cos: '√3/2', tg: '√3/3', ctg: '√3' },
+      { deg: '45°', rad: 'π/4', sin: '√2/2', cos: '√2/2', tg: '1', ctg: '1' },
+      { deg: '60°', rad: 'π/3', sin: '√3/2', cos: '1/2', tg: '√3', ctg: '√3/3' },
+      { deg: '90°', rad: 'π/2', sin: '1', cos: '0', tg: '—', ctg: '0' },
+      { deg: '180°', rad: 'π', sin: '0', cos: '−1', tg: '0', ctg: '—' },
+      { deg: '270°', rad: '3π/2', sin: '−1', cos: '0', tg: '—', ctg: '0' },
+      { deg: '360°', rad: '2π', sin: '0', cos: '1', tg: '0', ctg: '—' }
+    ];
+
+    function toastMessage(text) {
+      toast.textContent = text;
+      toast.classList.add('show');
+      clearTimeout(window.__toastTimer);
+      window.__toastTimer = setTimeout(() => toast.classList.remove('show'), 1600);
+    }
+
+    function setTheme(theme) {
+      document.documentElement.dataset.theme = theme;
+      localStorage.setItem('trigExactTheme', theme);
+      themeBtn.textContent = theme === 'dark' ? '☀️ Light' : '🌙 Dark';
+    }
+
+    setTheme(localStorage.getItem('trigExactTheme') || 'light');
+    themeBtn.addEventListener('click', () => setTheme(document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark'));
+
+    let lang = localStorage.getItem('trigExactLang') || 'hy';
+    function applyLang(nextLang) {
+      lang = nextLang;
+      localStorage.setItem('trigExactLang', lang);
+      document.documentElement.lang = lang;
+      document.querySelectorAll('[data-hy][data-ru]').forEach(el => {
+        el.textContent = el.dataset[lang];
+      });
+    }
+    applyLang(lang);
+    langBtn.addEventListener('click', () => applyLang(lang === 'hy' ? 'ru' : 'hy'));
+
+    function clearHighlights() {
+      table.querySelectorAll('.highlight-col').forEach(cell => cell.classList.remove('highlight-col'));
+      table.querySelectorAll('.highlight-row').forEach(row => row.classList.remove('highlight-row'));
+    }
+
+    table.addEventListener('mouseover', (event) => {
+      const cell = event.target.closest('td, th');
+      if (!cell || !table.contains(cell)) return;
+      const row = cell.parentElement;
+      const index = [...row.children].indexOf(cell);
+      clearHighlights();
+      if (row.parentElement.tagName === 'TBODY') row.classList.add('highlight-row');
+      if (index > 0) {
+        [...table.rows].forEach(tr => {
+          if (tr.children[index]) tr.children[index].classList.add('highlight-col');
+        });
+      }
+    });
+
+    table.addEventListener('mouseleave', clearHighlights);
+
+    table.addEventListener('click', (event) => {
+      const cell = event.target.closest('td, th');
+      if (!cell) return;
+      const row = cell.parentElement;
+      const index = [...row.children].indexOf(cell);
+      if (index > 0 && table.rows[1]?.children[index]) {
+        const angle = table.rows[1].children[index].innerText.trim();
+        toastMessage(`${angle} highlighted`);
+      }
+    });
+
+    function tableText() {
+      const lines = [
+        'Angle | Radian | sin | cos | tg | ctg',
+        ...values.map(v => `${v.deg} | ${v.rad} | ${v.sin} | ${v.cos} | ${v.tg} | ${v.ctg}`)
+      ];
+      return lines.join('\n');
+    }
+
+    copyBtn.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(tableText());
+        toastMessage(lang === 'hy' ? 'Աղյուսակը պատճենվեց' : 'Таблица скопирована');
+      } catch {
+        toastMessage(lang === 'hy' ? 'Copy չստացվեց' : 'Не удалось скопировать');
+      }
+    });
+
+    function makeMobileCards() {
+      mobileCards.innerHTML = values.map(v => `
+        <article class="angle-card">
+          <h3>${v.deg} <span class="math">= ${v.rad}</span></h3>
+          <dl>
+            <dt>sin α</dt><dd>${v.sin}</dd>
+            <dt>cos α</dt><dd>${v.cos}</dd>
+            <dt>tg α</dt><dd>${v.tg}</dd>
+            <dt>ctg α</dt><dd>${v.ctg}</dd>
+          </dl>
+        </article>
+      `).join('');
+    }
+    makeMobileCards();
+  </script>
+</body>
+</html>
