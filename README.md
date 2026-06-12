@@ -1,16 +1,19 @@
-# Trig Exact Values Webpage V5
+# Trig Exact Values Webpage — Clean Full Version
 
-Standalone Armenian trigonometry exact-values page.
+This is the cleaned full webpage version.
 
-Updates in this version:
-- Added a visible "Ինչպես հիշել ամբողջ աղյուսակը" section near the top of the page.
-- The memory section visually shows:
-  - first-quadrant sin pattern: √0/2, √1/2, √2/2, √3/2, √4/2
-  - cos pattern as the reverse of sin
-  - quadrant signs for sin, cos, tg, ctg
-  - 3-step reference-angle method
-- Removed duplicate angles from the extra-angles table because they are already in the main table:
-  120°, 135°, 150°, 210°, 225°, 240°, 300°, 315°.
-- Main table still includes 0°, 30°, 45°, 60°, 90°, 120°, 135°, 150°, 180°, 210°, 225°, 240°, 270°, 300°, 315°, 360°.
+Removed:
+- the visible “Ինչպես հիշել ամբողջ աղյուսակը” block
+- the unused CSS for that deleted block
+- any nav link pointing to `#memory`
 
-Open `index.html` in a browser or upload the changed files over the previous GitHub Pages files.
+Still kept:
+- main exact-values table
+- quadrant signs section
+- extra angles table
+- unit circle
+- graphs
+- dark/light mode
+- copy/print buttons
+
+Upload the files inside this folder to the same GitHub Pages folder/repo path and overwrite the old files.
