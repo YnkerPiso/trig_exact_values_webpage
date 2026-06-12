@@ -104,6 +104,7 @@
     .table-tools strong { font-size:18px; }
     .table-wrap { overflow-x:auto; padding:16px; }
     table { width:100%; min-width:980px; border-collapse:separate; border-spacing:8px; table-layout:fixed; }
+    #trigTable { min-width: 1780px; }
     th, td { text-align:center; vertical-align:middle; border-radius:var(--cell-radius); padding:14px 12px; background:var(--solid); border:1px solid var(--line); transition: transform .18s ease, background .18s ease, border-color .18s ease, box-shadow .18s ease; }
     th { color:var(--purple); font-weight:950; font-size:18px; }
     td { font-size:23px; font-weight:850; min-height:68px; }
@@ -219,7 +220,7 @@
 
     <div class="section-title" id="core">
       <div><h2>Հիմնական անկյուններ</h2></div>
-      <p>Սրանք ամենակարևորն են։ Քո նկարի աղյուսակում հենց այս անկյուններն էին՝ 0°, 30°, 45°, 60°, 90°, 180°, 270°, 360°։</p>
+      <p>Սրանք ամենակարևորն են։ Աղյուսակը հիմա ներառում է նաև 120°, 135°, 150°, 210°, 225°, 240°, 300°, 315° անկյունները, որպեսզի նույն տեղում տեսնես բոլոր հիմնական քառորդների արժեքները։</p>
     </div>
 
     <section class="table-card" aria-label="Trigonometric exact values">
@@ -230,21 +231,21 @@
       <div class="table-wrap">
         <table id="trigTable">
           <thead>
-            <tr><th class="head-label"></th><th colspan="8" class="alpha-head">α</th></tr>
+            <tr><th class="head-label"></th><th colspan="16" class="alpha-head">α</th></tr>
             <tr>
               <th class="head-label">Աստիճաններ</th>
-              <th class="angle">0°</th><th class="angle">30°</th><th class="angle">45°</th><th class="angle">60°</th><th class="angle">90°</th><th class="angle">180°</th><th class="angle">270°</th><th class="angle">360°</th>
+              <th class="angle">0°</th><th class="angle">30°</th><th class="angle">45°</th><th class="angle">60°</th><th class="angle">90°</th><th class="angle">120°</th><th class="angle">135°</th><th class="angle">150°</th><th class="angle">180°</th><th class="angle">210°</th><th class="angle">225°</th><th class="angle">240°</th><th class="angle">270°</th><th class="angle">300°</th><th class="angle">315°</th><th class="angle">360°</th>
             </tr>
             <tr>
               <th class="head-label">Ռադիաններ</th>
-              <th class="rad">0</th><th class="rad"><span class="frac"><span class="top">π</span><span class="bottom">6</span></span></th><th class="rad"><span class="frac"><span class="top">π</span><span class="bottom">4</span></span></th><th class="rad"><span class="frac"><span class="top">π</span><span class="bottom">3</span></span></th><th class="rad"><span class="frac"><span class="top">π</span><span class="bottom">2</span></span></th><th class="rad">π</th><th class="rad"><span class="frac"><span class="top">3π</span><span class="bottom">2</span></span></th><th class="rad">2π</th>
+              <th class="rad">0</th><th class="rad"><span class="frac"><span class="top">π</span><span class="bottom">6</span></span></th><th class="rad"><span class="frac"><span class="top">π</span><span class="bottom">4</span></span></th><th class="rad"><span class="frac"><span class="top">π</span><span class="bottom">3</span></span></th><th class="rad"><span class="frac"><span class="top">π</span><span class="bottom">2</span></span></th><th class="rad"><span class="frac"><span class="top">2π</span><span class="bottom">3</span></span></th><th class="rad"><span class="frac"><span class="top">3π</span><span class="bottom">4</span></span></th><th class="rad"><span class="frac"><span class="top">5π</span><span class="bottom">6</span></span></th><th class="rad">π</th><th class="rad"><span class="frac"><span class="top">7π</span><span class="bottom">6</span></span></th><th class="rad"><span class="frac"><span class="top">5π</span><span class="bottom">4</span></span></th><th class="rad"><span class="frac"><span class="top">4π</span><span class="bottom">3</span></span></th><th class="rad"><span class="frac"><span class="top">3π</span><span class="bottom">2</span></span></th><th class="rad"><span class="frac"><span class="top">5π</span><span class="bottom">3</span></span></th><th class="rad"><span class="frac"><span class="top">7π</span><span class="bottom">4</span></span></th><th class="rad">2π</th>
             </tr>
           </thead>
           <tbody>
-            <tr><th class="label">sin α</th><td>0</td><td><span class="frac"><span class="top">1</span><span class="bottom">2</span></span></td><td><span class="frac"><span class="top">√2</span><span class="bottom">2</span></span></td><td><span class="frac"><span class="top">√3</span><span class="bottom">2</span></span></td><td>1</td><td>0</td><td>−1</td><td>0</td></tr>
-            <tr><th class="label">cos α</th><td>1</td><td><span class="frac"><span class="top">√3</span><span class="bottom">2</span></span></td><td><span class="frac"><span class="top">√2</span><span class="bottom">2</span></span></td><td><span class="frac"><span class="top">1</span><span class="bottom">2</span></span></td><td>0</td><td>−1</td><td>0</td><td>1</td></tr>
-            <tr><th class="label">tg α</th><td>0</td><td><span class="frac"><span class="top">√3</span><span class="bottom">3</span></span></td><td>1</td><td>√3</td><td class="undefined">—</td><td>0</td><td class="undefined">—</td><td>0</td></tr>
-            <tr><th class="label">ctg α</th><td class="undefined">—</td><td>√3</td><td>1</td><td><span class="frac"><span class="top">√3</span><span class="bottom">3</span></span></td><td>0</td><td class="undefined">—</td><td>0</td><td class="undefined">—</td></tr>
+            <tr><th class="label">sin α</th><td>0</td><td><span class="frac"><span class="top">1</span><span class="bottom">2</span></span></td><td><span class="frac"><span class="top">√2</span><span class="bottom">2</span></span></td><td><span class="frac"><span class="top">√3</span><span class="bottom">2</span></span></td><td>1</td><td><span class="frac"><span class="top">√3</span><span class="bottom">2</span></span></td><td><span class="frac"><span class="top">√2</span><span class="bottom">2</span></span></td><td><span class="frac"><span class="top">1</span><span class="bottom">2</span></span></td><td>0</td><td><span class="frac"><span class="top">−1</span><span class="bottom">2</span></span></td><td><span class="frac"><span class="top">−√2</span><span class="bottom">2</span></span></td><td><span class="frac"><span class="top">−√3</span><span class="bottom">2</span></span></td><td>−1</td><td><span class="frac"><span class="top">−√3</span><span class="bottom">2</span></span></td><td><span class="frac"><span class="top">−√2</span><span class="bottom">2</span></span></td><td>0</td></tr>
+            <tr><th class="label">cos α</th><td>1</td><td><span class="frac"><span class="top">√3</span><span class="bottom">2</span></span></td><td><span class="frac"><span class="top">√2</span><span class="bottom">2</span></span></td><td><span class="frac"><span class="top">1</span><span class="bottom">2</span></span></td><td>0</td><td><span class="frac"><span class="top">−1</span><span class="bottom">2</span></span></td><td><span class="frac"><span class="top">−√2</span><span class="bottom">2</span></span></td><td><span class="frac"><span class="top">−√3</span><span class="bottom">2</span></span></td><td>−1</td><td><span class="frac"><span class="top">−√3</span><span class="bottom">2</span></span></td><td><span class="frac"><span class="top">−√2</span><span class="bottom">2</span></span></td><td><span class="frac"><span class="top">−1</span><span class="bottom">2</span></span></td><td>0</td><td><span class="frac"><span class="top">1</span><span class="bottom">2</span></span></td><td><span class="frac"><span class="top">√2</span><span class="bottom">2</span></span></td><td>1</td></tr>
+            <tr><th class="label">tg α</th><td>0</td><td><span class="frac"><span class="top">√3</span><span class="bottom">3</span></span></td><td>1</td><td>√3</td><td class="undefined">—</td><td>−√3</td><td>−1</td><td><span class="frac"><span class="top">−√3</span><span class="bottom">3</span></span></td><td>0</td><td><span class="frac"><span class="top">√3</span><span class="bottom">3</span></span></td><td>1</td><td>√3</td><td class="undefined">—</td><td>−√3</td><td>−1</td><td>0</td></tr>
+            <tr><th class="label">ctg α</th><td class="undefined">—</td><td>√3</td><td>1</td><td><span class="frac"><span class="top">√3</span><span class="bottom">3</span></span></td><td>0</td><td><span class="frac"><span class="top">−√3</span><span class="bottom">3</span></span></td><td>−1</td><td>−√3</td><td class="undefined">—</td><td>√3</td><td>1</td><td><span class="frac"><span class="top">√3</span><span class="bottom">3</span></span></td><td>0</td><td><span class="frac"><span class="top">−√3</span><span class="bottom">3</span></span></td><td>−1</td><td class="undefined">—</td></tr>
           </tbody>
         </table>
       </div>
@@ -391,8 +392,16 @@
       { deg: '45°', rad: 'π/4', sin: '√2/2', cos: '√2/2', tg: '1', ctg: '1', n: 45 },
       { deg: '60°', rad: 'π/3', sin: '√3/2', cos: '1/2', tg: '√3', ctg: '√3/3', n: 60 },
       { deg: '90°', rad: 'π/2', sin: '1', cos: '0', tg: '—', ctg: '0', n: 90 },
+      { deg: '120°', rad: '2π/3', sin: '√3/2', cos: '−1/2', tg: '−√3', ctg: '−√3/3', n: 120 },
+      { deg: '135°', rad: '3π/4', sin: '√2/2', cos: '−√2/2', tg: '−1', ctg: '−1', n: 135 },
+      { deg: '150°', rad: '5π/6', sin: '1/2', cos: '−√3/2', tg: '−√3/3', ctg: '−√3', n: 150 },
       { deg: '180°', rad: 'π', sin: '0', cos: '−1', tg: '0', ctg: '—', n: 180 },
+      { deg: '210°', rad: '7π/6', sin: '−1/2', cos: '−√3/2', tg: '√3/3', ctg: '√3', n: 210 },
+      { deg: '225°', rad: '5π/4', sin: '−√2/2', cos: '−√2/2', tg: '1', ctg: '1', n: 225 },
+      { deg: '240°', rad: '4π/3', sin: '−√3/2', cos: '−1/2', tg: '√3', ctg: '√3/3', n: 240 },
       { deg: '270°', rad: '3π/2', sin: '−1', cos: '0', tg: '—', ctg: '0', n: 270 },
+      { deg: '300°', rad: '5π/3', sin: '−√3/2', cos: '1/2', tg: '−√3', ctg: '−√3/3', n: 300 },
+      { deg: '315°', rad: '7π/4', sin: '−√2/2', cos: '√2/2', tg: '−1', ctg: '−1', n: 315 },
       { deg: '360°', rad: '2π', sin: '0', cos: '1', tg: '0', ctg: '—', n: 360 }
     ];
 

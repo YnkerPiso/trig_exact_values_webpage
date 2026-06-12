@@ -1,11 +1,10 @@
-# Trigonometric exact values webpage
+# Trig Exact Values Webpage V3
 
-Open `index.html` in any browser. It works offline.
+Standalone Armenian trigonometry exact-values page.
 
-Includes:
-- responsive exact values table for sin, cos, tg, ctg
-- Armenian/Russian label toggle
-- light/dark mode
-- hover/click highlighting
-- copy table button
-- print-friendly layout
+Updates in this version:
+- Main table now includes 0°, 30°, 45°, 60°, 90°, 120°, 135°, 150°, 180°, 210°, 225°, 240°, 270°, 300°, 315°, 360°.
+- The same extended angle set is used in copy output and mobile cards.
+- Unit circle and function graph visuals are included.
+
+Open `index.html` in a browser or upload the files to GitHub Pages.
