@@ -3,468 +3,188 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Եռանկյունաչափական արժեքների աղյուսակ</title>
+  <title>Եռանկյունաչափություն — արժեքներ և գրաֆիկներ</title>
   <style>
     :root {
       --bg: #f8f5ff;
-      --card: rgba(255, 255, 255, 0.86);
-      --card-solid: #ffffff;
+      --bg2: #eef9ff;
+      --card: rgba(255,255,255,.86);
+      --solid: #fff;
       --text: #1d1530;
       --muted: #6d6282;
       --purple: #7a3ab0;
-      --purple-2: #a46be0;
-      --purple-soft: #efe2ff;
-      --blue-soft: #e8f2ff;
-      --green-soft: #e8fff2;
-      --danger-soft: #fff0f3;
-      --line: rgba(72, 45, 105, 0.18);
-      --shadow: 0 24px 70px rgba(79, 45, 115, 0.18);
+      --purple2: #a46be0;
+      --cyan: #11b7c7;
+      --pink: #f064a6;
+      --orange: #ffb347;
+      --line: rgba(72,45,105,.17);
+      --soft: #efe2ff;
+      --blueSoft: #e8f2ff;
+      --greenSoft: #e9fff2;
+      --redSoft: #fff0f4;
+      --shadow: 0 26px 80px rgba(79, 45, 115, .18);
       --radius: 28px;
-      --cell-radius: 18px;
+      --cell-radius: 17px;
     }
-
     [data-theme="dark"] {
-      --bg: #120d1e;
-      --card: rgba(31, 23, 48, 0.82);
-      --card-solid: #211734;
+      --bg: #100d1c;
+      --bg2: #081a21;
+      --card: rgba(31,23,48,.86);
+      --solid: #211734;
       --text: #fbf8ff;
-      --muted: #c4b9d7;
-      --purple: #c38bff;
-      --purple-2: #9b62dc;
-      --purple-soft: rgba(141, 88, 210, 0.22);
-      --blue-soft: rgba(76, 148, 255, 0.16);
-      --green-soft: rgba(62, 211, 129, 0.15);
-      --danger-soft: rgba(255, 97, 135, 0.13);
-      --line: rgba(255, 255, 255, 0.12);
-      --shadow: 0 24px 70px rgba(0, 0, 0, 0.35);
+      --muted: #c9bddb;
+      --purple: #c894ff;
+      --purple2: #9f65e1;
+      --cyan: #57e0eb;
+      --pink: #ff8abc;
+      --orange: #ffd08d;
+      --line: rgba(255,255,255,.13);
+      --soft: rgba(154, 95, 222, .24);
+      --blueSoft: rgba(76,148,255,.16);
+      --greenSoft: rgba(62,211,129,.15);
+      --redSoft: rgba(255,97,135,.13);
+      --shadow: 0 26px 80px rgba(0,0,0,.36);
     }
-
     * { box-sizing: border-box; }
-
+    html { scroll-behavior: smooth; }
     body {
       margin: 0;
       min-height: 100vh;
-      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
       color: var(--text);
       background:
-        radial-gradient(circle at 8% 8%, rgba(188, 137, 255, 0.28), transparent 34%),
-        radial-gradient(circle at 92% 12%, rgba(115, 172, 255, 0.18), transparent 30%),
-        linear-gradient(135deg, var(--bg), var(--bg));
+        radial-gradient(circle at 8% 7%, rgba(188,137,255,.30), transparent 32%),
+        radial-gradient(circle at 92% 12%, rgba(87,203,235,.20), transparent 34%),
+        radial-gradient(circle at 50% 96%, rgba(255,125,187,.14), transparent 32%),
+        linear-gradient(135deg, var(--bg), var(--bg2));
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
       overflow-x: hidden;
     }
-
-    .page {
-      width: min(1180px, calc(100% - 32px));
-      margin: 0 auto;
-      padding: 28px 0 44px;
-    }
-
-    .hero {
-      position: relative;
-      padding: 34px;
+    .page { width: min(1220px, calc(100% - 32px)); margin: 0 auto; padding: 26px 0 52px; }
+    .hero, .card, .table-card {
       border: 1px solid var(--line);
       border-radius: var(--radius);
       background: var(--card);
       box-shadow: var(--shadow);
-      overflow: hidden;
       backdrop-filter: blur(16px);
     }
-
-    .hero::before,
-    .hero::after {
-      content: "";
-      position: absolute;
-      border-radius: 999px;
-      pointer-events: none;
-    }
-
-    .hero::before {
-      width: 250px;
-      height: 250px;
-      right: -90px;
-      top: -105px;
-      background: linear-gradient(135deg, rgba(151, 85, 225, 0.30), rgba(255, 255, 255, 0));
-    }
-
-    .hero::after {
-      width: 150px;
-      height: 150px;
-      left: 42%;
-      bottom: -90px;
-      background: linear-gradient(135deg, rgba(92, 177, 255, 0.20), rgba(255, 255, 255, 0));
-    }
-
-    .topbar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 14px;
-      position: relative;
-      z-index: 1;
-    }
-
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 9px;
-      padding: 9px 14px;
-      border-radius: 999px;
-      background: var(--purple-soft);
-      color: var(--purple);
-      font-weight: 800;
-      letter-spacing: 0.02em;
+    .hero { position: relative; overflow: hidden; padding: 34px; }
+    .hero::before, .hero::after { content:""; position:absolute; border-radius:999px; pointer-events:none; }
+    .hero::before { width:260px; height:260px; right:-92px; top:-105px; background: linear-gradient(135deg, rgba(154,84,227,.30), transparent); }
+    .hero::after { width:190px; height:190px; left:44%; bottom:-105px; background: linear-gradient(135deg, rgba(31,180,204,.22), transparent); }
+    .topbar, .hero-inner { position: relative; z-index: 1; }
+    .topbar { display:flex; align-items:center; justify-content:space-between; gap:14px; margin-bottom: 26px; }
+    .badge { display:inline-flex; align-items:center; gap:10px; padding:10px 15px; border-radius:999px; background:var(--soft); color:var(--purple); font-weight:900; border:1px solid var(--line); }
+    .badge-dot { width:10px; height:10px; border-radius:50%; background:var(--purple); box-shadow: 0 0 0 7px rgba(122,58,176,.13); }
+    .actions { display:flex; flex-wrap:wrap; justify-content:flex-end; gap:10px; }
+    button, select {
       border: 1px solid var(--line);
-    }
-
-    .badge-dot {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      background: var(--purple);
-      box-shadow: 0 0 0 6px rgba(122, 58, 176, 0.13);
-    }
-
-    .actions {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      justify-content: flex-end;
-    }
-
-    button {
-      border: 0;
-      cursor: pointer;
+      background: var(--solid);
       color: var(--text);
-      background: var(--card-solid);
-      border: 1px solid var(--line);
       border-radius: 999px;
       padding: 10px 14px;
-      font-weight: 800;
-      box-shadow: 0 10px 24px rgba(57, 32, 92, 0.08);
-      transition: transform 0.18s ease, border-color 0.18s ease, background 0.18s ease;
-    }
-
-    button:hover { transform: translateY(-2px); border-color: rgba(122, 58, 176, 0.42); }
-    button:active { transform: translateY(0); }
-
-    h1 {
-      margin: 28px 0 12px;
-      max-width: 780px;
-      font-size: clamp(32px, 5vw, 64px);
-      line-height: 0.98;
-      letter-spacing: -0.055em;
-      position: relative;
-      z-index: 1;
-    }
-
-    .hero p {
-      margin: 0;
-      max-width: 760px;
-      color: var(--muted);
-      font-size: clamp(16px, 2vw, 20px);
-      line-height: 1.6;
-      position: relative;
-      z-index: 1;
-    }
-
-    .quick-formulas {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 12px;
-      margin-top: 22px;
-      position: relative;
-      z-index: 1;
-    }
-
-    .quick-card {
-      border-radius: 20px;
-      border: 1px solid var(--line);
-      background: var(--card-solid);
-      padding: 16px;
-      min-height: 100px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-
-    .quick-card span:first-child {
-      color: var(--muted);
-      font-weight: 800;
-      font-size: 13px;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-    }
-
-    .quick-card span:last-child {
-      font-size: 26px;
       font-weight: 900;
-      color: var(--purple);
-      font-family: Georgia, "Times New Roman", serif;
+      box-shadow: 0 10px 24px rgba(57, 32, 92, .08);
     }
-
-    .section-title {
-      display: flex;
-      align-items: end;
-      justify-content: space-between;
-      gap: 18px;
-      margin: 34px 0 16px;
+    button { cursor:pointer; transition: transform .18s ease, border-color .18s ease, background .18s ease; }
+    button:hover { transform: translateY(-2px); border-color: rgba(122,58,176,.42); }
+    button.primary { background: linear-gradient(135deg, var(--purple), var(--purple2)); color: #fff; border-color: transparent; }
+    h1 { margin:0 0 14px; max-width:850px; font-size:clamp(34px, 5vw, 66px); line-height:.98; letter-spacing:-.055em; }
+    .lead { margin:0; max-width:850px; color:var(--muted); font-size:clamp(16px, 2vw, 20px); line-height:1.65; }
+    .quick-formulas { display:grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap:12px; margin-top:24px; }
+    .quick-card { border:1px solid var(--line); border-radius:20px; background:var(--solid); padding:16px; min-height:96px; display:flex; flex-direction:column; justify-content:space-between; }
+    .quick-card b { color: var(--muted); font-size:12px; text-transform:uppercase; letter-spacing:.09em; }
+    .quick-card span { font-family: Georgia, "Times New Roman", serif; color:var(--purple); font-weight:900; font-size:24px; }
+    .nav { display:flex; flex-wrap:wrap; gap:10px; margin: 18px 0 0; }
+    .nav a { color: var(--text); text-decoration:none; padding:10px 14px; border:1px solid var(--line); background:var(--solid); border-radius:999px; font-weight:850; }
+    .section-title { display:flex; justify-content:space-between; align-items:end; gap:18px; margin:36px 0 16px; }
+    .section-title h2 { margin:0; font-size:clamp(25px,3vw,38px); letter-spacing:-.035em; }
+    .section-title p { margin:0; max-width:610px; color:var(--muted); line-height:1.5; }
+    .table-card { overflow:hidden; }
+    .table-tools { display:flex; align-items:center; justify-content:space-between; gap:12px; padding:18px; border-bottom:1px solid var(--line); background: linear-gradient(90deg, var(--soft), transparent); }
+    .table-tools strong { font-size:18px; }
+    .table-wrap { overflow-x:auto; padding:16px; }
+    table { width:100%; min-width:980px; border-collapse:separate; border-spacing:8px; table-layout:fixed; }
+    th, td { text-align:center; vertical-align:middle; border-radius:var(--cell-radius); padding:14px 12px; background:var(--solid); border:1px solid var(--line); transition: transform .18s ease, background .18s ease, border-color .18s ease, box-shadow .18s ease; }
+    th { color:var(--purple); font-weight:950; font-size:18px; }
+    td { font-size:23px; font-weight:850; min-height:68px; }
+    .label { width:150px; color:var(--purple); font-family:Georgia,"Times New Roman",serif; font-size:24px; background:linear-gradient(135deg,var(--soft),var(--solid)); }
+    .head-label { color:var(--text); font-family:inherit; font-size:16px; text-align:left; }
+    .alpha-head { font-family:Georgia,"Times New Roman",serif; font-size:34px; color:var(--purple); background:linear-gradient(135deg,var(--soft),var(--blueSoft)); }
+    .angle, .rad { color:var(--purple); font-size:24px; }
+    .rad { font-family:Georgia,"Times New Roman",serif; }
+    .undefined { color:var(--muted); font-size:30px; }
+    .frac { display:inline-flex; flex-direction:column; align-items:center; line-height:1.02; vertical-align:middle; font-family:Georgia,"Times New Roman",serif; font-weight:950; }
+    .frac .top { border-bottom:2px solid currentColor; padding:0 5px 3px; }
+    .frac .bottom { padding:3px 5px 0; }
+    .math { font-family:Georgia,"Times New Roman",serif; font-weight:950; }
+    .highlight-row td, .highlight-row th.label { background:var(--greenSoft); border-color:rgba(62,211,129,.35); }
+    .highlight-col { background:var(--blueSoft) !important; border-color:rgba(76,148,255,.34) !important; box-shadow:0 8px 22px rgba(54,101,190,.10); transform:translateY(-2px); }
+    .grid-2 { display:grid; grid-template-columns: minmax(0, .95fr) minmax(0, 1.05fr); gap:18px; }
+    .grid-3 { display:grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap:16px; }
+    .card { padding:20px; }
+    .card h3 { margin:0 0 10px; color:var(--purple); font-size:22px; }
+    .card p { margin:0; color:var(--muted); line-height:1.58; }
+    .circle-layout { display:grid; grid-template-columns: 380px 1fr; gap:20px; align-items:center; }
+    .circle-box { border:1px solid var(--line); border-radius:24px; background:var(--solid); padding:14px; }
+    .values-panel { display:grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap:12px; }
+    .value-pill { border:1px solid var(--line); background:var(--solid); border-radius:20px; padding:14px; }
+    .value-pill b { display:block; color:var(--muted); font-size:13px; text-transform:uppercase; letter-spacing:.08em; margin-bottom:7px; }
+    .value-pill span { font-size:26px; color:var(--purple); font-weight:950; }
+    .explain { margin-top:12px; padding:14px; border:1px solid var(--line); border-radius:20px; background: var(--blueSoft); color: var(--muted); line-height:1.55; }
+    .selector-row { display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin: 0 0 14px; }
+    .graph-grid { display:grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap:16px; }
+    .graph-card { border:1px solid var(--line); border-radius:24px; background:var(--solid); padding:16px; overflow:hidden; }
+    .graph-card h3 { margin:0 0 6px; color:var(--purple); }
+    .graph-card p { margin:0 0 8px; color:var(--muted); font-size:14px; line-height:1.45; }
+    .graph-svg { width:100%; height:230px; display:block; }
+    .axis { stroke: currentColor; opacity: .42; stroke-width: 1; }
+    .grid-line { stroke: currentColor; opacity: .10; stroke-width:1; }
+    .asymptote { stroke: var(--pink); stroke-width:1.4; stroke-dasharray:5 5; opacity:.80; }
+    .curve { fill:none; stroke: var(--purple); stroke-width:3; stroke-linecap:round; stroke-linejoin:round; }
+    .curve-cyan { stroke: var(--cyan); }
+    .curve-pink { stroke: var(--pink); }
+    .curve-orange { stroke: var(--orange); }
+    .tick-label { font-size:11px; fill: currentColor; opacity:.68; }
+    .unit-axis { stroke: currentColor; opacity:.55; stroke-width:1.2; }
+    .unit-circle { fill:none; stroke:var(--line); stroke-width:2; }
+    .angle-ray { stroke:var(--purple); stroke-width:3.5; stroke-linecap:round; }
+    .helper-line { stroke:var(--cyan); stroke-width:2; stroke-dasharray:5 5; }
+    .point { fill:var(--pink); stroke:#fff; stroke-width:3; }
+    .arc { fill:none; stroke:var(--orange); stroke-width:4; stroke-linecap:round; }
+    .small-label { font-size:13px; fill: currentColor; opacity:.86; font-weight:800; }
+    .important-list { display:grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap:12px; }
+    .info-box { border:1px solid var(--line); border-radius:20px; background:var(--solid); padding:15px; line-height:1.55; }
+    .info-box b { color:var(--purple); display:block; margin-bottom:6px; }
+    .mobile-cards { display:none; grid-template-columns:1fr; gap:14px; margin-top:22px; }
+    .angle-card { border:1px solid var(--line); border-radius:24px; background:var(--solid); padding:16px; }
+    .angle-card h3 { margin:0 0 12px; color:var(--purple); font-size:24px; }
+    .angle-card dl { display:grid; grid-template-columns:92px 1fr; gap:8px 12px; margin:0; align-items:center; }
+    .angle-card dt { color:var(--muted); font-weight:900; font-family:Georgia,"Times New Roman",serif; }
+    .angle-card dd { margin:0; font-size:22px; font-weight:900; }
+    .toast { position:fixed; left:50%; bottom:24px; transform:translateX(-50%) translateY(120px); padding:12px 18px; border-radius:999px; background:var(--text); color:var(--bg); font-weight:900; box-shadow:var(--shadow); transition:transform .24s ease; z-index:20; }
+    .toast.show { transform:translateX(-50%) translateY(0); }
+    @media (max-width: 980px) {
+      .quick-formulas, .grid-3 { grid-template-columns:repeat(2,minmax(0,1fr)); }
+      .grid-2, .circle-layout { grid-template-columns:1fr; }
+      .circle-box { max-width:430px; margin:0 auto; width:100%; }
+      .section-title { flex-direction:column; align-items:start; }
     }
-
-    .section-title h2 {
-      margin: 0;
-      font-size: clamp(24px, 3vw, 36px);
-      letter-spacing: -0.03em;
+    @media (max-width: 720px) {
+      .page { width:min(100% - 20px, 1220px); padding-top:10px; }
+      .hero { padding:22px; }
+      .topbar { flex-direction:column; align-items:flex-start; }
+      .actions { justify-content:flex-start; }
+      .quick-formulas, .grid-3, .graph-grid, .important-list, .values-panel { grid-template-columns:1fr; }
+      .table-tools { flex-direction:column; align-items:flex-start; }
+      .mobile-cards { display:grid; }
     }
-
-    .section-title p {
-      margin: 0;
-      color: var(--muted);
-      line-height: 1.45;
-      max-width: 560px;
-    }
-
-    .table-card {
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      background: var(--card);
-      box-shadow: var(--shadow);
-      overflow: hidden;
-      backdrop-filter: blur(16px);
-    }
-
-    .table-tools {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 18px;
-      gap: 12px;
-      border-bottom: 1px solid var(--line);
-      background: linear-gradient(90deg, var(--purple-soft), transparent);
-    }
-
-    .table-tools strong {
-      font-size: 18px;
-    }
-
-    .scroll-hint {
-      color: var(--muted);
-      font-size: 14px;
-      font-weight: 700;
-    }
-
-    .table-wrap {
-      overflow-x: auto;
-      padding: 16px;
-    }
-
-    table {
-      width: 100%;
-      min-width: 980px;
-      border-collapse: separate;
-      border-spacing: 8px;
-      table-layout: fixed;
-    }
-
-    th, td {
-      text-align: center;
-      vertical-align: middle;
-      border-radius: var(--cell-radius);
-      padding: 14px 12px;
-      background: var(--card-solid);
-      border: 1px solid var(--line);
-      transition: transform 0.18s ease, background 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
-    }
-
-    th {
-      color: var(--purple);
-      font-weight: 900;
-      font-size: 18px;
-    }
-
-    td {
-      font-size: 24px;
-      font-weight: 850;
-      min-height: 70px;
-    }
-
-    .label {
-      width: 150px;
-      color: var(--purple);
-      font-size: 24px;
-      font-family: Georgia, "Times New Roman", serif;
-      background: linear-gradient(135deg, var(--purple-soft), var(--card-solid));
-    }
-
-    .head-label {
-      color: var(--text);
-      font-family: inherit;
-      font-size: 17px;
-      text-align: left;
-      background: var(--card-solid);
-    }
-
-    .alpha-head {
-      font-family: Georgia, "Times New Roman", serif;
-      font-size: 34px;
-      color: var(--purple);
-      background: linear-gradient(135deg, var(--purple-soft), var(--blue-soft));
-    }
-
-    .angle {
-      color: var(--purple);
-      font-size: 25px;
-    }
-
-    .rad {
-      color: var(--purple);
-      font-family: Georgia, "Times New Roman", serif;
-      font-size: 25px;
-    }
-
-    .undefined {
-      color: var(--muted);
-      font-size: 32px;
-    }
-
-    .frac {
-      display: inline-flex;
-      flex-direction: column;
-      align-items: center;
-      line-height: 1.02;
-      vertical-align: middle;
-      font-family: Georgia, "Times New Roman", serif;
-      font-weight: 900;
-    }
-
-    .frac .top {
-      border-bottom: 2px solid currentColor;
-      padding: 0 5px 3px;
-    }
-
-    .frac .bottom {
-      padding: 3px 5px 0;
-    }
-
-    .math {
-      font-family: Georgia, "Times New Roman", serif;
-      font-weight: 900;
-    }
-
-    .highlight-row td,
-    .highlight-row th.label {
-      background: var(--green-soft);
-      border-color: rgba(62, 211, 129, 0.35);
-    }
-
-    .highlight-col {
-      background: var(--blue-soft) !important;
-      border-color: rgba(76, 148, 255, 0.34) !important;
-      box-shadow: 0 8px 22px rgba(54, 101, 190, 0.10);
-      transform: translateY(-2px);
-    }
-
-    .mini-grid {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 14px;
-      margin-top: 18px;
-    }
-
-    .note {
-      padding: 18px;
-      border-radius: 22px;
-      border: 1px solid var(--line);
-      background: var(--card-solid);
-      line-height: 1.5;
-    }
-
-    .note strong {
-      display: block;
-      margin-bottom: 8px;
-      color: var(--purple);
-    }
-
-    .mobile-cards {
-      display: none;
-      margin-top: 24px;
-      grid-template-columns: 1fr;
-      gap: 14px;
-    }
-
-    .angle-card {
-      border: 1px solid var(--line);
-      border-radius: 24px;
-      background: var(--card-solid);
-      padding: 16px;
-      box-shadow: 0 16px 34px rgba(57, 32, 92, 0.08);
-    }
-
-    .angle-card h3 {
-      margin: 0 0 12px;
-      color: var(--purple);
-      font-size: 24px;
-    }
-
-    .angle-card dl {
-      display: grid;
-      grid-template-columns: 92px 1fr;
-      gap: 8px 12px;
-      margin: 0;
-      align-items: center;
-    }
-
-    .angle-card dt {
-      color: var(--muted);
-      font-weight: 900;
-      font-family: Georgia, "Times New Roman", serif;
-    }
-
-    .angle-card dd {
-      margin: 0;
-      font-size: 22px;
-      font-weight: 900;
-    }
-
-    .toast {
-      position: fixed;
-      left: 50%;
-      bottom: 24px;
-      transform: translateX(-50%) translateY(120px);
-      padding: 12px 18px;
-      border-radius: 999px;
-      background: var(--text);
-      color: var(--bg);
-      font-weight: 900;
-      box-shadow: var(--shadow);
-      transition: transform 0.24s ease;
-      z-index: 10;
-    }
-
-    .toast.show { transform: translateX(-50%) translateY(0); }
-
-    @media (max-width: 900px) {
-      .quick-formulas, .mini-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-      .section-title { align-items: start; flex-direction: column; }
-    }
-
-    @media (max-width: 680px) {
-      .page { width: min(100% - 20px, 1180px); padding-top: 10px; }
-      .hero { padding: 22px; }
-      .topbar { align-items: flex-start; flex-direction: column; }
-      .actions { justify-content: flex-start; }
-      .quick-formulas, .mini-grid { grid-template-columns: 1fr; }
-      .table-card { border-radius: 22px; }
-      .table-tools { align-items: flex-start; flex-direction: column; }
-      .mobile-cards { display: grid; }
-    }
-
     @media print {
-      body { background: #fff; }
-      .actions, .quick-formulas, .section-title p, .mini-grid, .mobile-cards, .toast { display: none !important; }
-      .page { width: 100%; padding: 0; }
-      .hero, .table-card { box-shadow: none; border: 1px solid #bbb; }
-      .hero { margin-bottom: 14px; }
-      th, td { color: #111 !important; background: #fff !important; border: 1px solid #bbb; }
+      body { background:#fff; }
+      .actions, .quick-formulas, .nav, .mobile-cards, .toast { display:none !important; }
+      .page { width:100%; padding:0; }
+      .hero, .card, .table-card { box-shadow:none; border:1px solid #bbb; }
+      th,td { color:#111 !important; background:#fff !important; border:1px solid #bbb; }
+      .graph-card { break-inside:avoid; }
     }
   </style>
 </head>
@@ -472,124 +192,185 @@
   <main class="page">
     <section class="hero">
       <div class="topbar">
-        <div class="badge"><span class="badge-dot"></span><span>Exact values table</span></div>
+        <div class="badge"><span class="badge-dot"></span><span>Trig visual lab</span></div>
         <div class="actions">
-          <button id="langBtn" type="button">Հայերեն / Русский</button>
           <button id="themeBtn" type="button">🌙 Dark</button>
-          <button id="copyBtn" type="button">Copy table</button>
+          <button id="copyBtn" type="button">Copy core table</button>
           <button onclick="window.print()" type="button">Print</button>
         </div>
       </div>
-
-      <h1 data-hy="Եռանկյունաչափական արժեքների աղյուսակ" data-ru="Таблица тригонометрических значений">Եռանկյունաչափական արժեքների աղյուսակ</h1>
-      <p data-hy="Այս աղյուսակը ցույց է տալիս հիմնական անկյունների sin, cos, tg և ctg արժեքները։ Այն հարմար է արագ կրկնելու, սովորելու և թեստերի համար։" data-ru="Эта таблица показывает значения sin, cos, tg и ctg для основных углов. Удобно для повторения, запоминания и тестов.">Այս աղյուսակը ցույց է տալիս հիմնական անկյունների sin, cos, tg և ctg արժեքները։ Այն հարմար է արագ կրկնելու, սովորելու և թեստերի համար։</p>
-
-      <div class="quick-formulas" aria-label="Important formulas">
-        <div class="quick-card"><span>Ratio</span><span>tg α = sin α / cos α</span></div>
-        <div class="quick-card"><span>Ratio</span><span>ctg α = cos α / sin α</span></div>
-        <div class="quick-card"><span>Identity</span><span>sin²α + cos²α = 1</span></div>
-        <div class="quick-card"><span>Rule</span><span>tg α · ctg α = 1</span></div>
+      <div class="hero-inner">
+        <h1>Եռանկյունաչափական արժեքներ և գրաֆիկներ</h1>
+        <p class="lead">Նախորդ աղյուսակը ցույց էր տալիս միայն ամենահիմնական անկյունները։ Այս տարբերակում կա նաև ավելի լայն անկյունների ցուցակ, միավոր շրջան, և sin, cos, tg, ctg ֆունկցիաների գրաֆիկներ, որ տեսնես՝ որտեղից են գալիս x-ը, y-ը և արժեքները։</p>
+        <div class="nav">
+          <a href="#core">Հիմնական աղյուսակ</a>
+          <a href="#extended">Լրացուցիչ անկյուններ</a>
+          <a href="#circle">Միավոր շրջան</a>
+          <a href="#graphs">Գրաֆիկներ</a>
+        </div>
+        <div class="quick-formulas" aria-label="Important formulas">
+          <div class="quick-card"><b>Unit circle</b><span>x = cos α</span></div>
+          <div class="quick-card"><b>Unit circle</b><span>y = sin α</span></div>
+          <div class="quick-card"><b>Ratio</b><span>tg α = y / x</span></div>
+          <div class="quick-card"><b>Ratio</b><span>ctg α = x / y</span></div>
+        </div>
       </div>
     </section>
 
-    <div class="section-title">
-      <div>
-        <h2 data-hy="Հիմնական անկյուններ" data-ru="Основные углы">Հիմնական անկյուններ</h2>
-      </div>
-      <p data-hy="Սեղմիր կամ պահիր որևէ սյունակի վրա՝ այդ անկյան արժեքները տեսնելու համար։ Բջիջները highlight են լինում, որ հեշտ լինի համեմատել։" data-ru="Наведите или нажмите на столбец, чтобы увидеть все значения выбранного угла. Ячейки подсвечиваются для удобного сравнения.">Սեղմիր կամ պահիր որևէ սյունակի վրա՝ այդ անկյան արժեքները տեսնելու համար։ Բջիջները highlight են լինում, որ հեշտ լինի համեմատել։</p>
+    <div class="section-title" id="core">
+      <div><h2>Հիմնական անկյուններ</h2></div>
+      <p>Սրանք ամենակարևորն են։ Քո նկարի աղյուսակում հենց այս անկյուններն էին՝ 0°, 30°, 45°, 60°, 90°, 180°, 270°, 360°։</p>
     </div>
 
     <section class="table-card" aria-label="Trigonometric exact values">
       <div class="table-tools">
-        <strong data-hy="sin, cos, tg, ctg արժեքներ" data-ru="Значения sin, cos, tg, ctg">sin, cos, tg, ctg արժեքներ</strong>
-        <span class="scroll-hint" data-hy="Փոքր էկրանների վրա աղյուսակը կարելի է տեղափոխել ձախ/աջ" data-ru="На маленьком экране таблицу можно прокручивать влево/вправо">Փոքր էկրանների վրա աղյուսակը կարելի է տեղափոխել ձախ/աջ</span>
+        <strong>sin, cos, tg, ctg արժեքներ</strong>
+        <span>Փոքր էկրանների վրա աղյուսակը կարելի է տեղափոխել ձախ/աջ</span>
       </div>
-
       <div class="table-wrap">
         <table id="trigTable">
           <thead>
+            <tr><th class="head-label"></th><th colspan="8" class="alpha-head">α</th></tr>
             <tr>
-              <th class="head-label"></th>
-              <th colspan="8" class="alpha-head">α</th>
+              <th class="head-label">Աստիճաններ</th>
+              <th class="angle">0°</th><th class="angle">30°</th><th class="angle">45°</th><th class="angle">60°</th><th class="angle">90°</th><th class="angle">180°</th><th class="angle">270°</th><th class="angle">360°</th>
             </tr>
             <tr>
-              <th class="head-label" data-hy="Աստիճաններ" data-ru="Градусы">Աստիճաններ</th>
-              <th class="angle">0°</th>
-              <th class="angle">30°</th>
-              <th class="angle">45°</th>
-              <th class="angle">60°</th>
-              <th class="angle">90°</th>
-              <th class="angle">180°</th>
-              <th class="angle">270°</th>
-              <th class="angle">360°</th>
-            </tr>
-            <tr>
-              <th class="head-label" data-hy="Ռադիաններ" data-ru="Радианы">Ռադիաններ</th>
-              <th class="rad">0</th>
-              <th class="rad"><span class="frac"><span class="top">π</span><span class="bottom">6</span></span></th>
-              <th class="rad"><span class="frac"><span class="top">π</span><span class="bottom">4</span></span></th>
-              <th class="rad"><span class="frac"><span class="top">π</span><span class="bottom">3</span></span></th>
-              <th class="rad"><span class="frac"><span class="top">π</span><span class="bottom">2</span></span></th>
-              <th class="rad">π</th>
-              <th class="rad"><span class="frac"><span class="top">3π</span><span class="bottom">2</span></span></th>
-              <th class="rad">2π</th>
+              <th class="head-label">Ռադիաններ</th>
+              <th class="rad">0</th><th class="rad"><span class="frac"><span class="top">π</span><span class="bottom">6</span></span></th><th class="rad"><span class="frac"><span class="top">π</span><span class="bottom">4</span></span></th><th class="rad"><span class="frac"><span class="top">π</span><span class="bottom">3</span></span></th><th class="rad"><span class="frac"><span class="top">π</span><span class="bottom">2</span></span></th><th class="rad">π</th><th class="rad"><span class="frac"><span class="top">3π</span><span class="bottom">2</span></span></th><th class="rad">2π</th>
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <th class="label">sin α</th>
-              <td>0</td>
-              <td><span class="frac"><span class="top">1</span><span class="bottom">2</span></span></td>
-              <td><span class="frac"><span class="top">√2</span><span class="bottom">2</span></span></td>
-              <td><span class="frac"><span class="top">√3</span><span class="bottom">2</span></span></td>
-              <td>1</td>
-              <td>0</td>
-              <td>−1</td>
-              <td>0</td>
-            </tr>
-            <tr>
-              <th class="label">cos α</th>
-              <td>1</td>
-              <td><span class="frac"><span class="top">√3</span><span class="bottom">2</span></span></td>
-              <td><span class="frac"><span class="top">√2</span><span class="bottom">2</span></span></td>
-              <td><span class="frac"><span class="top">1</span><span class="bottom">2</span></span></td>
-              <td>0</td>
-              <td>−1</td>
-              <td>0</td>
-              <td>1</td>
-            </tr>
-            <tr>
-              <th class="label">tg α</th>
-              <td>0</td>
-              <td><span class="frac"><span class="top">√3</span><span class="bottom">3</span></span></td>
-              <td>1</td>
-              <td>√3</td>
-              <td class="undefined">—</td>
-              <td>0</td>
-              <td class="undefined">—</td>
-              <td>0</td>
-            </tr>
-            <tr>
-              <th class="label">ctg α</th>
-              <td class="undefined">—</td>
-              <td>√3</td>
-              <td>1</td>
-              <td><span class="frac"><span class="top">√3</span><span class="bottom">3</span></span></td>
-              <td>0</td>
-              <td class="undefined">—</td>
-              <td>0</td>
-              <td class="undefined">—</td>
-            </tr>
+            <tr><th class="label">sin α</th><td>0</td><td><span class="frac"><span class="top">1</span><span class="bottom">2</span></span></td><td><span class="frac"><span class="top">√2</span><span class="bottom">2</span></span></td><td><span class="frac"><span class="top">√3</span><span class="bottom">2</span></span></td><td>1</td><td>0</td><td>−1</td><td>0</td></tr>
+            <tr><th class="label">cos α</th><td>1</td><td><span class="frac"><span class="top">√3</span><span class="bottom">2</span></span></td><td><span class="frac"><span class="top">√2</span><span class="bottom">2</span></span></td><td><span class="frac"><span class="top">1</span><span class="bottom">2</span></span></td><td>0</td><td>−1</td><td>0</td><td>1</td></tr>
+            <tr><th class="label">tg α</th><td>0</td><td><span class="frac"><span class="top">√3</span><span class="bottom">3</span></span></td><td>1</td><td>√3</td><td class="undefined">—</td><td>0</td><td class="undefined">—</td><td>0</td></tr>
+            <tr><th class="label">ctg α</th><td class="undefined">—</td><td>√3</td><td>1</td><td><span class="frac"><span class="top">√3</span><span class="bottom">3</span></span></td><td>0</td><td class="undefined">—</td><td>0</td><td class="undefined">—</td></tr>
           </tbody>
         </table>
       </div>
     </section>
 
-    <section class="mini-grid" aria-label="Learning notes">
-      <div class="note"><strong data-hy="Ինչու tg-ը երբեմն չկա" data-ru="Почему tg иногда не существует">Ինչու tg-ը երբեմն չկա</strong><span data-hy="tg α = sin α / cos α, դրա համար երբ cos α = 0, tg α չի որոշվում։" data-ru="tg α = sin α / cos α, поэтому когда cos α = 0, tg α не определён.">tg α = sin α / cos α, դրա համար երբ cos α = 0, tg α չի որոշվում։</span></div>
-      <div class="note"><strong data-hy="Ինչու ctg-ը երբեմն չկա" data-ru="Почему ctg иногда не существует">Ինչու ctg-ը երբեմն չկա</strong><span data-hy="ctg α = cos α / sin α, դրա համար երբ sin α = 0, ctg α չի որոշվում։" data-ru="ctg α = cos α / sin α, поэтому когда sin α = 0, ctg α не определён.">ctg α = cos α / sin α, դրա համար երբ sin α = 0, ctg α չի որոշվում։</span></div>
-      <div class="note"><strong data-hy="Հիշելու հուշում" data-ru="Подсказка для запоминания">Հիշելու հուշում</strong><span data-hy="30°, 45°, 60° անկյունների sin արժեքներն են √1/2, √2/2, √3/2։ cos-ի համար նույնը հակառակ հերթականությամբ է։" data-ru="Для 30°, 45°, 60° значения sin идут как √1/2, √2/2, √3/2. Для cos — в обратном порядке.">30°, 45°, 60° անկյունների sin արժեքներն են √1/2, √2/2, √3/2։ cos-ի համար նույնը հակառակ հերթականությամբ է։</span></div>
-      <div class="note"><strong data-hy="Կրկնության համար" data-ru="Для повторения">Կրկնության համար</strong><span data-hy="Ամեն անգամ ընտրիր մեկ սյունակ և փորձիր փակ աչքերով ասել sin, cos, tg, ctg արժեքները։" data-ru="Выберите один столбец и попробуйте по памяти назвать значения sin, cos, tg, ctg.">Ամեն անգամ ընտրիր մեկ սյունակ և փորձիր փակ աչքերով ասել sin, cos, tg, ctg արժեքները։</span></div>
+    <div class="section-title" id="extended">
+      <div><h2>Լրացուցիչ օգտակար անկյուններ</h2></div>
+      <p>Քո վարժություններում կան նաև 15°, 22.5°, 120°, 150°, 225°, 315° և այլ անկյուններ։ Դրանց համար ավելի լավ է սովորել բերելու կանոնները, ոչ թե միայն անգիր աղյուսակ։</p>
+    </div>
+
+    <section class="table-card">
+      <div class="table-tools">
+        <strong>Անկյուններ, որոնք հաճախ հանդիպում են վարժություններում</strong>
+        <span>Այս աղյուսակը չի փոխարինում հիմնականին․ սա լրացուցիչ օգնություն է։</span>
+      </div>
+      <div class="table-wrap">
+        <table id="extendedTable">
+          <thead>
+            <tr><th class="head-label">Անկյուն</th><th>Ռադիան</th><th>sin</th><th>cos</th><th>tg</th><th>Ինչպես հիշել</th></tr>
+          </thead>
+          <tbody>
+            <tr><th class="angle">15°</th><td>π/12</td><td>(√6 − √2)/4</td><td>(√6 + √2)/4</td><td>2 − √3</td><td>45° − 30°</td></tr>
+            <tr><th class="angle">22.5°</th><td>π/8</td><td>√(2 − √2)/2</td><td>√(2 + √2)/2</td><td>√2 − 1</td><td>45° / 2</td></tr>
+            <tr><th class="angle">36°</th><td>π/5</td><td>√(10 − 2√5)/4</td><td>(1 + √5)/4</td><td>sin/cos</td><td>հանդիպում է π/5-ում</td></tr>
+            <tr><th class="angle">54°</th><td>3π/10</td><td>(1 + √5)/4</td><td>√(10 − 2√5)/4</td><td>sin/cos</td><td>90° − 36°</td></tr>
+            <tr><th class="angle">120°</th><td>2π/3</td><td>√3/2</td><td>−1/2</td><td>−√3</td><td>180° − 60°</td></tr>
+            <tr><th class="angle">135°</th><td>3π/4</td><td>√2/2</td><td>−√2/2</td><td>−1</td><td>180° − 45°</td></tr>
+            <tr><th class="angle">150°</th><td>5π/6</td><td>1/2</td><td>−√3/2</td><td>−√3/3</td><td>180° − 30°</td></tr>
+            <tr><th class="angle">210°</th><td>7π/6</td><td>−1/2</td><td>−√3/2</td><td>√3/3</td><td>180° + 30°</td></tr>
+            <tr><th class="angle">225°</th><td>5π/4</td><td>−√2/2</td><td>−√2/2</td><td>1</td><td>180° + 45°</td></tr>
+            <tr><th class="angle">240°</th><td>4π/3</td><td>−√3/2</td><td>−1/2</td><td>√3</td><td>180° + 60°</td></tr>
+            <tr><th class="angle">300°</th><td>5π/3</td><td>−√3/2</td><td>1/2</td><td>−√3</td><td>360° − 60°</td></tr>
+            <tr><th class="angle">315°</th><td>7π/4</td><td>−√2/2</td><td>√2/2</td><td>−1</td><td>360° − 45°</td></tr>
+            <tr><th class="angle">780°</th><td>13π/3</td><td>√3/2</td><td>1/2</td><td>√3</td><td>780° − 720° = 60°</td></tr>
+            <tr><th class="angle">840°</th><td>14π/3</td><td>√3/2</td><td>−1/2</td><td>−√3</td><td>840° − 720° = 120°</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <div class="section-title" id="circle">
+      <div><h2>Միավոր շրջան․ որտեղից են x-ը և y-ը</h2></div>
+      <p>Միավոր շրջանում կետը ունի կոորդինատներ <b>(x, y)</b>։ Այստեղ միշտ <b>x = cos α</b>, <b>y = sin α</b>, իսկ <b>tg α = y/x</b>, <b>ctg α = x/y</b>։</p>
+    </div>
+
+    <section class="card">
+      <div class="selector-row">
+        <label for="angleSelect"><b>Ընտրիր անկյունը՝</b></label>
+        <select id="angleSelect"></select>
+        <button id="prevAngle" type="button">← Նախորդ</button>
+        <button id="nextAngle" type="button" class="primary">Հաջորդ →</button>
+      </div>
+      <div class="circle-layout">
+        <div class="circle-box">
+          <svg id="unitCircle" viewBox="0 0 420 420" width="100%" height="auto" aria-label="Unit circle visual">
+            <line x1="28" y1="210" x2="392" y2="210" class="unit-axis" />
+            <line x1="210" y1="392" x2="210" y2="28" class="unit-axis" />
+            <text x="382" y="200" class="small-label">x</text>
+            <text x="222" y="40" class="small-label">y</text>
+            <circle cx="210" cy="210" r="145" class="unit-circle" />
+            <path id="angleArc" class="arc" d="" />
+            <line id="xHelper" x1="210" y1="210" x2="210" y2="210" class="helper-line" />
+            <line id="yHelper" x1="210" y1="210" x2="210" y2="210" class="helper-line" />
+            <line id="angleRay" x1="210" y1="210" x2="355" y2="210" class="angle-ray" />
+            <circle id="anglePoint" cx="355" cy="210" r="8" class="point" />
+            <text x="358" y="228" class="small-label">(cos α, sin α)</text>
+            <text x="365" y="214" class="small-label">1</text>
+            <text x="202" y="207" class="small-label">0</text>
+            <text x="350" y="205" class="small-label">1</text>
+            <text x="52" y="205" class="small-label">−1</text>
+            <text x="216" y="62" class="small-label">1</text>
+            <text x="216" y="364" class="small-label">−1</text>
+          </svg>
+        </div>
+        <div>
+          <div class="values-panel">
+            <div class="value-pill"><b>Անկյուն</b><span id="circleAngle">0°</span></div>
+            <div class="value-pill"><b>Ռադիան</b><span id="circleRad">0</span></div>
+            <div class="value-pill"><b>x = cos α</b><span id="circleCos">1</span></div>
+            <div class="value-pill"><b>y = sin α</b><span id="circleSin">0</span></div>
+            <div class="value-pill"><b>tg α = y/x</b><span id="circleTg">0</span></div>
+            <div class="value-pill"><b>ctg α = x/y</b><span id="circleCtg">—</span></div>
+          </div>
+          <div class="explain" id="circleExplain">0°-ում կետը գտնվում է աջ կողմում՝ (1, 0), դրա համար cos = 1, sin = 0։</div>
+        </div>
+      </div>
+    </section>
+
+    <div class="section-title" id="graphs">
+      <div><h2>Ֆունկցիաների գրաֆիկներ</h2></div>
+      <p>Այստեղ x-ը անկյունն է ռադիաններով, իսկ y-ը ֆունկցիայի արժեքն է։ Sin և cos գրաֆիկները ալիք են, իսկ tg/ctg ունեն ուղղահայաց ասիմպտոտներ, որտեղ արժեքը չի որոշվում։</p>
+    </div>
+
+    <section class="graph-grid">
+      <article class="graph-card">
+        <h3>y = sin x</h3>
+        <p>Սկսվում է 0-ից, π/2-ում դառնում է 1, π-ում նորից 0։</p>
+        <svg id="sinGraph" class="graph-svg" viewBox="0 0 520 230" aria-label="sin graph"></svg>
+      </article>
+      <article class="graph-card">
+        <h3>y = cos x</h3>
+        <p>Սկսվում է 1-ից, π/2-ում դառնում է 0, π-ում՝ −1։</p>
+        <svg id="cosGraph" class="graph-svg" viewBox="0 0 520 230" aria-label="cos graph"></svg>
+      </article>
+      <article class="graph-card">
+        <h3>y = tg x</h3>
+        <p>tg x = sin x / cos x, դրա համար չկա, երբ cos x = 0։</p>
+        <svg id="tanGraph" class="graph-svg" viewBox="0 0 520 230" aria-label="tg graph"></svg>
+      </article>
+      <article class="graph-card">
+        <h3>y = ctg x</h3>
+        <p>ctg x = cos x / sin x, դրա համար չկա, երբ sin x = 0։</p>
+        <svg id="cotGraph" class="graph-svg" viewBox="0 0 520 230" aria-label="ctg graph"></svg>
+      </article>
+    </section>
+
+    <div class="section-title">
+      <div><h2>Ամենակարևոր կանոնները</h2></div>
+      <p>Սրանք են պատճառը, որ բոլոր անկյունները առանձին անգիր սովորել պետք չէ։</p>
+    </div>
+
+    <section class="important-list">
+      <div class="info-box"><b>1. Բերել հիմնական անկյան</b>Օրինակ՝ 840° = 720° + 120°, ուրեմն sin840° = sin120°։</div>
+      <div class="info-box"><b>2. Նշանը կախված է քառորդից</b>I-ում բոլորը + են, II-ում sin-ը + է, III-ում tg/ctg-ն + են, IV-ում cos-ը + է։</div>
+      <div class="info-box"><b>3. Լրացուցիչ անկյուններ</b>sin(180° − α) = sin α, cos(180° − α) = −cos α։</div>
+      <div class="info-box"><b>4. Կիսանկյուններ</b>22.5°-ը գալիս է 45°/2-ից, իսկ 15°-ը կարելի է ստանալ 45° − 30°-ով։</div>
     </section>
 
     <section class="mobile-cards" id="mobileCards" aria-label="Mobile angle cards"></section>
@@ -600,20 +381,38 @@
   <script>
     const table = document.getElementById('trigTable');
     const themeBtn = document.getElementById('themeBtn');
-    const langBtn = document.getElementById('langBtn');
     const copyBtn = document.getElementById('copyBtn');
     const toast = document.getElementById('toast');
     const mobileCards = document.getElementById('mobileCards');
 
-    const values = [
-      { deg: '0°', rad: '0', sin: '0', cos: '1', tg: '0', ctg: '—' },
-      { deg: '30°', rad: 'π/6', sin: '1/2', cos: '√3/2', tg: '√3/3', ctg: '√3' },
-      { deg: '45°', rad: 'π/4', sin: '√2/2', cos: '√2/2', tg: '1', ctg: '1' },
-      { deg: '60°', rad: 'π/3', sin: '√3/2', cos: '1/2', tg: '√3', ctg: '√3/3' },
-      { deg: '90°', rad: 'π/2', sin: '1', cos: '0', tg: '—', ctg: '0' },
-      { deg: '180°', rad: 'π', sin: '0', cos: '−1', tg: '0', ctg: '—' },
-      { deg: '270°', rad: '3π/2', sin: '−1', cos: '0', tg: '—', ctg: '0' },
-      { deg: '360°', rad: '2π', sin: '0', cos: '1', tg: '0', ctg: '—' }
+    const coreValues = [
+      { deg: '0°', rad: '0', sin: '0', cos: '1', tg: '0', ctg: '—', n: 0 },
+      { deg: '30°', rad: 'π/6', sin: '1/2', cos: '√3/2', tg: '√3/3', ctg: '√3', n: 30 },
+      { deg: '45°', rad: 'π/4', sin: '√2/2', cos: '√2/2', tg: '1', ctg: '1', n: 45 },
+      { deg: '60°', rad: 'π/3', sin: '√3/2', cos: '1/2', tg: '√3', ctg: '√3/3', n: 60 },
+      { deg: '90°', rad: 'π/2', sin: '1', cos: '0', tg: '—', ctg: '0', n: 90 },
+      { deg: '180°', rad: 'π', sin: '0', cos: '−1', tg: '0', ctg: '—', n: 180 },
+      { deg: '270°', rad: '3π/2', sin: '−1', cos: '0', tg: '—', ctg: '0', n: 270 },
+      { deg: '360°', rad: '2π', sin: '0', cos: '1', tg: '0', ctg: '—', n: 360 }
+    ];
+
+    const circleValues = [
+      { deg: '0°', rad: '0', sin: '0', cos: '1', tg: '0', ctg: '—', n: 0, text: '0°-ում կետը գտնվում է աջ կողմում՝ (1, 0), դրա համար cos = 1, sin = 0։' },
+      { deg: '30°', rad: 'π/6', sin: '1/2', cos: '√3/2', tg: '√3/3', ctg: '√3', n: 30, text: '30°-ում y-ը փոքր է, x-ը մեծ է․ sin = 1/2, cos = √3/2։' },
+      { deg: '45°', rad: 'π/4', sin: '√2/2', cos: '√2/2', tg: '1', ctg: '1', n: 45, text: '45°-ում x-ը և y-ը հավասար են, դրա համար sin = cos = √2/2։' },
+      { deg: '60°', rad: 'π/3', sin: '√3/2', cos: '1/2', tg: '√3', ctg: '√3/3', n: 60, text: '60°-ում y-ը մեծ է, x-ը փոքր է․ sin = √3/2, cos = 1/2։' },
+      { deg: '90°', rad: 'π/2', sin: '1', cos: '0', tg: '—', ctg: '0', n: 90, text: '90°-ում x = 0, դրա համար tg-ը չի որոշվում, բայց ctg = 0։' },
+      { deg: '120°', rad: '2π/3', sin: '√3/2', cos: '−1/2', tg: '−√3', ctg: '−√3/3', n: 120, text: '120° = 180° − 60°․ II քառորդում sin-ը + է, cos-ը −։' },
+      { deg: '135°', rad: '3π/4', sin: '√2/2', cos: '−√2/2', tg: '−1', ctg: '−1', n: 135, text: '135° = 180° − 45°․ II քառորդում sin-ը + է, cos-ը −։' },
+      { deg: '150°', rad: '5π/6', sin: '1/2', cos: '−√3/2', tg: '−√3/3', ctg: '−√3', n: 150, text: '150° = 180° − 30°․ sin-ը մնում է 1/2, cos-ը դառնում է −√3/2։' },
+      { deg: '180°', rad: 'π', sin: '0', cos: '−1', tg: '0', ctg: '—', n: 180, text: '180°-ում կետը ձախ կողմում է՝ (−1, 0)։' },
+      { deg: '210°', rad: '7π/6', sin: '−1/2', cos: '−√3/2', tg: '√3/3', ctg: '√3', n: 210, text: '210° = 180° + 30°․ III քառորդում sin և cos բացասական են, tg-ը դրական է։' },
+      { deg: '225°', rad: '5π/4', sin: '−√2/2', cos: '−√2/2', tg: '1', ctg: '1', n: 225, text: '225° = 180° + 45°․ III քառորդում tg-ը դրական է։' },
+      { deg: '240°', rad: '4π/3', sin: '−√3/2', cos: '−1/2', tg: '√3', ctg: '√3/3', n: 240, text: '240° = 180° + 60°․ III քառորդում sin և cos բացասական են։' },
+      { deg: '270°', rad: '3π/2', sin: '−1', cos: '0', tg: '—', ctg: '0', n: 270, text: '270°-ում x = 0, y = −1, դրա համար tg-ը չի որոշվում։' },
+      { deg: '300°', rad: '5π/3', sin: '−√3/2', cos: '1/2', tg: '−√3', ctg: '−√3/3', n: 300, text: '300° = 360° − 60°․ IV քառորդում cos-ը + է, sin-ը −։' },
+      { deg: '315°', rad: '7π/4', sin: '−√2/2', cos: '√2/2', tg: '−1', ctg: '−1', n: 315, text: '315° = 360° − 45°․ IV քառորդում cos-ը + է, sin-ը −։' },
+      { deg: '360°', rad: '2π', sin: '0', cos: '1', tg: '0', ctg: '—', n: 360, text: '360°-ը նույն դիրքն է ինչ 0°։' }
     ];
 
     function toastMessage(text) {
@@ -625,88 +424,158 @@
 
     function setTheme(theme) {
       document.documentElement.dataset.theme = theme;
-      localStorage.setItem('trigExactTheme', theme);
+      localStorage.setItem('trigExactThemeV2', theme);
       themeBtn.textContent = theme === 'dark' ? '☀️ Light' : '🌙 Dark';
     }
-
-    setTheme(localStorage.getItem('trigExactTheme') || 'light');
+    setTheme(localStorage.getItem('trigExactThemeV2') || 'light');
     themeBtn.addEventListener('click', () => setTheme(document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark'));
-
-    let lang = localStorage.getItem('trigExactLang') || 'hy';
-    function applyLang(nextLang) {
-      lang = nextLang;
-      localStorage.setItem('trigExactLang', lang);
-      document.documentElement.lang = lang;
-      document.querySelectorAll('[data-hy][data-ru]').forEach(el => {
-        el.textContent = el.dataset[lang];
-      });
-    }
-    applyLang(lang);
-    langBtn.addEventListener('click', () => applyLang(lang === 'hy' ? 'ru' : 'hy'));
 
     function clearHighlights() {
       table.querySelectorAll('.highlight-col').forEach(cell => cell.classList.remove('highlight-col'));
       table.querySelectorAll('.highlight-row').forEach(row => row.classList.remove('highlight-row'));
     }
-
-    table.addEventListener('mouseover', (event) => {
+    table.addEventListener('mouseover', event => {
       const cell = event.target.closest('td, th');
       if (!cell || !table.contains(cell)) return;
       const row = cell.parentElement;
       const index = [...row.children].indexOf(cell);
       clearHighlights();
       if (row.parentElement.tagName === 'TBODY') row.classList.add('highlight-row');
-      if (index > 0) {
-        [...table.rows].forEach(tr => {
-          if (tr.children[index]) tr.children[index].classList.add('highlight-col');
-        });
-      }
+      if (index > 0) [...table.rows].forEach(tr => { if (tr.children[index]) tr.children[index].classList.add('highlight-col'); });
     });
-
     table.addEventListener('mouseleave', clearHighlights);
-
-    table.addEventListener('click', (event) => {
+    table.addEventListener('click', event => {
       const cell = event.target.closest('td, th');
       if (!cell) return;
       const row = cell.parentElement;
       const index = [...row.children].indexOf(cell);
-      if (index > 0 && table.rows[1]?.children[index]) {
-        const angle = table.rows[1].children[index].innerText.trim();
-        toastMessage(`${angle} highlighted`);
-      }
+      if (index > 0 && table.rows[1]?.children[index]) toastMessage(table.rows[1].children[index].innerText.trim() + ' highlighted');
     });
 
     function tableText() {
-      const lines = [
-        'Angle | Radian | sin | cos | tg | ctg',
-        ...values.map(v => `${v.deg} | ${v.rad} | ${v.sin} | ${v.cos} | ${v.tg} | ${v.ctg}`)
-      ];
-      return lines.join('\n');
+      return ['Angle | Radian | sin | cos | tg | ctg', ...coreValues.map(v => `${v.deg} | ${v.rad} | ${v.sin} | ${v.cos} | ${v.tg} | ${v.ctg}`)].join('\n');
     }
-
     copyBtn.addEventListener('click', async () => {
-      try {
-        await navigator.clipboard.writeText(tableText());
-        toastMessage(lang === 'hy' ? 'Աղյուսակը պատճենվեց' : 'Таблица скопирована');
-      } catch {
-        toastMessage(lang === 'hy' ? 'Copy չստացվեց' : 'Не удалось скопировать');
-      }
+      try { await navigator.clipboard.writeText(tableText()); toastMessage('Աղյուսակը պատճենվեց'); }
+      catch { toastMessage('Copy չստացվեց'); }
     });
 
     function makeMobileCards() {
-      mobileCards.innerHTML = values.map(v => `
+      mobileCards.innerHTML = coreValues.map(v => `
         <article class="angle-card">
           <h3>${v.deg} <span class="math">= ${v.rad}</span></h3>
-          <dl>
-            <dt>sin α</dt><dd>${v.sin}</dd>
-            <dt>cos α</dt><dd>${v.cos}</dd>
-            <dt>tg α</dt><dd>${v.tg}</dd>
-            <dt>ctg α</dt><dd>${v.ctg}</dd>
-          </dl>
-        </article>
-      `).join('');
+          <dl><dt>sin α</dt><dd>${v.sin}</dd><dt>cos α</dt><dd>${v.cos}</dd><dt>tg α</dt><dd>${v.tg}</dd><dt>ctg α</dt><dd>${v.ctg}</dd></dl>
+        </article>`).join('');
     }
     makeMobileCards();
+
+    const angleSelect = document.getElementById('angleSelect');
+    const prevAngle = document.getElementById('prevAngle');
+    const nextAngle = document.getElementById('nextAngle');
+    const circleAngle = document.getElementById('circleAngle');
+    const circleRad = document.getElementById('circleRad');
+    const circleSin = document.getElementById('circleSin');
+    const circleCos = document.getElementById('circleCos');
+    const circleTg = document.getElementById('circleTg');
+    const circleCtg = document.getElementById('circleCtg');
+    const circleExplain = document.getElementById('circleExplain');
+    const angleRay = document.getElementById('angleRay');
+    const anglePoint = document.getElementById('anglePoint');
+    const xHelper = document.getElementById('xHelper');
+    const yHelper = document.getElementById('yHelper');
+    const angleArc = document.getElementById('angleArc');
+
+    circleValues.forEach((v, i) => {
+      const opt = document.createElement('option');
+      opt.value = i;
+      opt.textContent = `${v.deg} = ${v.rad}`;
+      angleSelect.appendChild(opt);
+    });
+
+    function polarPoint(deg, radius) {
+      const rad = deg * Math.PI / 180;
+      return { x: 210 + radius * Math.cos(rad), y: 210 - radius * Math.sin(rad) };
+    }
+    function arcPath(deg) {
+      const r = 48;
+      const start = polarPoint(0, r);
+      const end = polarPoint(deg, r);
+      const large = deg > 180 ? 1 : 0;
+      return `M ${start.x} ${start.y} A ${r} ${r} 0 ${large} 0 ${end.x} ${end.y}`;
+    }
+    function updateCircle(index) {
+      const v = circleValues[index];
+      circleAngle.textContent = v.deg;
+      circleRad.textContent = v.rad;
+      circleSin.textContent = v.sin;
+      circleCos.textContent = v.cos;
+      circleTg.textContent = v.tg;
+      circleCtg.textContent = v.ctg;
+      circleExplain.textContent = v.text;
+      const p = polarPoint(v.n, 145);
+      angleRay.setAttribute('x2', p.x);
+      angleRay.setAttribute('y2', p.y);
+      anglePoint.setAttribute('cx', p.x);
+      anglePoint.setAttribute('cy', p.y);
+      xHelper.setAttribute('x1', p.x);
+      xHelper.setAttribute('y1', p.y);
+      xHelper.setAttribute('x2', p.x);
+      xHelper.setAttribute('y2', 210);
+      yHelper.setAttribute('x1', 210);
+      yHelper.setAttribute('y1', p.y);
+      yHelper.setAttribute('x2', p.x);
+      yHelper.setAttribute('y2', p.y);
+      angleArc.setAttribute('d', arcPath(v.n));
+      angleSelect.value = index;
+    }
+    angleSelect.addEventListener('change', () => updateCircle(Number(angleSelect.value)));
+    prevAngle.addEventListener('click', () => updateCircle((Number(angleSelect.value) - 1 + circleValues.length) % circleValues.length));
+    nextAngle.addEventListener('click', () => updateCircle((Number(angleSelect.value) + 1) % circleValues.length));
+    updateCircle(0);
+
+    function makeSvgEl(name, attrs = {}) {
+      const el = document.createElementNS('http://www.w3.org/2000/svg', name);
+      Object.entries(attrs).forEach(([k, v]) => el.setAttribute(k, v));
+      return el;
+    }
+    function graph(svgId, fn, options = {}) {
+      const svg = document.getElementById(svgId);
+      const W = 520, H = 230, pad = 34;
+      const xMin = -2 * Math.PI, xMax = 2 * Math.PI;
+      const yMin = options.yMin ?? -1.35, yMax = options.yMax ?? 1.35;
+      const sx = x => pad + (x - xMin) / (xMax - xMin) * (W - 2 * pad);
+      const sy = y => H - pad - (y - yMin) / (yMax - yMin) * (H - 2 * pad);
+      svg.innerHTML = '';
+      [-1, 0, 1].forEach(y => svg.appendChild(makeSvgEl('line', {x1: pad, y1: sy(y), x2: W - pad, y2: sy(y), class: y === 0 ? 'axis' : 'grid-line'})));
+      [-2, -1, 0, 1, 2].forEach(k => svg.appendChild(makeSvgEl('line', {x1: sx(k * Math.PI), y1: pad, x2: sx(k * Math.PI), y2: H - pad, class: k === 0 ? 'axis' : 'grid-line'})));
+      (options.asymptotes || []).forEach(x => svg.appendChild(makeSvgEl('line', {x1: sx(x), y1: pad, x2: sx(x), y2: H - pad, class: 'asymptote'})));
+      const labels = [{k:-2,t:'−2π'}, {k:-1,t:'−π'}, {k:0,t:'0'}, {k:1,t:'π'}, {k:2,t:'2π'}];
+      labels.forEach(l => {
+        const text = makeSvgEl('text', {x: sx(l.k * Math.PI) - 9, y: sy(0) + 18, class: 'tick-label'});
+        text.textContent = l.t;
+        svg.appendChild(text);
+      });
+      const parts = [];
+      let current = [];
+      const steps = 800;
+      for (let i = 0; i <= steps; i++) {
+        const x = xMin + (xMax - xMin) * i / steps;
+        const y = fn(x);
+        if (!Number.isFinite(y) || Math.abs(y) > (options.breakAt ?? 8)) {
+          if (current.length) parts.push(current);
+          current = [];
+        } else current.push([sx(x), sy(Math.max(yMin, Math.min(yMax, y)))]);
+      }
+      if (current.length) parts.push(current);
+      parts.forEach(points => {
+        const d = points.map((p, i) => `${i ? 'L' : 'M'} ${p[0].toFixed(2)} ${p[1].toFixed(2)}`).join(' ');
+        svg.appendChild(makeSvgEl('path', {d, class: `curve ${options.curveClass || ''}`}));
+      });
+    }
+    graph('sinGraph', Math.sin, {curveClass: 'curve-cyan'});
+    graph('cosGraph', Math.cos, {curveClass: ''});
+    graph('tanGraph', Math.tan, {yMin: -3, yMax: 3, breakAt: 7, curveClass: 'curve-pink', asymptotes: [-1.5*Math.PI, -0.5*Math.PI, 0.5*Math.PI, 1.5*Math.PI]});
+    graph('cotGraph', x => Math.cos(x) / Math.sin(x), {yMin: -3, yMax: 3, breakAt: 7, curveClass: 'curve-orange', asymptotes: [-2*Math.PI, -Math.PI, 0, Math.PI, 2*Math.PI]});
   </script>
 </body>
 </html>
