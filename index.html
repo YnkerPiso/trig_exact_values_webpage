@@ -263,9 +263,79 @@
     }
     .mnemonic strong { color:var(--purple); }
 
+
+    .memory-overview {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--card);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(16px);
+      padding: 22px;
+      margin-top: 24px;
+    }
+    .memory-overview-head {
+      display:flex;
+      align-items:flex-end;
+      justify-content:space-between;
+      gap:18px;
+      margin-bottom:16px;
+    }
+    .memory-overview-head h2 { margin:0; font-size:clamp(25px,3vw,38px); letter-spacing:-.035em; }
+    .memory-overview-head p { margin:0; max-width:620px; color:var(--muted); line-height:1.5; }
+    .memory-grid {
+      display:grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr);
+      gap:16px;
+      align-items:stretch;
+    }
+    .pattern-card, .mini-sign-card, .reference-card {
+      border:1px solid var(--line);
+      border-radius:24px;
+      background:var(--solid);
+      padding:16px;
+    }
+    .pattern-card h3, .mini-sign-card h3, .reference-card h3 { margin:0 0 12px; color:var(--purple); }
+    .pattern-rows { display:grid; gap:10px; }
+    .pattern-row {
+      display:grid;
+      grid-template-columns: 80px repeat(5, minmax(0, 1fr));
+      gap:8px;
+      align-items:center;
+    }
+    .pattern-row b { color:var(--purple); font-family:Georgia,"Times New Roman",serif; font-size:22px; }
+    .pattern-pill {
+      min-height:54px;
+      border:1px solid var(--line);
+      border-radius:16px;
+      display:grid;
+      place-items:center;
+      background:linear-gradient(135deg, var(--soft), transparent);
+      font-weight:950;
+      font-size:20px;
+    }
+    .pattern-caption { margin:12px 0 0; color:var(--muted); line-height:1.5; }
+    .mini-sign-grid {
+      display:grid;
+      grid-template-columns:repeat(2,minmax(0,1fr));
+      gap:10px;
+    }
+    .mini-quad {
+      border:1px solid var(--line);
+      border-radius:18px;
+      background:linear-gradient(135deg, var(--blueSoft), transparent);
+      padding:12px;
+      min-height:105px;
+    }
+    .mini-quad strong { display:flex; justify-content:space-between; gap:8px; color:var(--purple); margin-bottom:9px; }
+    .mini-quad span { color:var(--muted); font-size:12px; }
+    .reference-card { margin-top:16px; }
+    .reference-steps { display:grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap:10px; }
+    .reference-steps div { border:1px solid var(--line); border-radius:18px; padding:12px; background:var(--blueSoft); line-height:1.45; }
+    .reference-steps b { display:block; color:var(--purple); margin-bottom:5px; }
+
     @media (max-width: 980px) {
       .quick-formulas, .grid-3 { grid-template-columns:repeat(2,minmax(0,1fr)); }
-      .grid-2, .circle-layout, .quadrant-memory { grid-template-columns:1fr; }
+      .grid-2, .circle-layout, .quadrant-memory, .memory-grid, .reference-steps { grid-template-columns:1fr; }
       .circle-box { max-width:430px; margin:0 auto; width:100%; }
       .section-title { flex-direction:column; align-items:start; }
     }
@@ -274,7 +344,7 @@
       .hero { padding:22px; }
       .topbar { flex-direction:column; align-items:flex-start; }
       .actions { justify-content:flex-start; }
-      .quick-formulas, .grid-3, .graph-grid, .important-list, .values-panel, .memory-method { grid-template-columns:1fr; }
+      .quick-formulas, .grid-3, .graph-grid, .important-list, .values-panel, .memory-method, .pattern-row, .mini-sign-grid { grid-template-columns:1fr; }
       .table-tools { flex-direction:column; align-items:flex-start; }
       .quadrant-visual { min-height: 680px; }
       .quadrant-tile { position: static; width: 100%; height: auto; margin-bottom: 10px; }
@@ -307,7 +377,8 @@
         <p class="lead">Նախորդ աղյուսակը ցույց էր տալիս միայն ամենահիմնական անկյունները։ Այս տարբերակում կա նաև ավելի լայն անկյունների ցուցակ, միավոր շրջան, և sin, cos, tg, ctg ֆունկցիաների գրաֆիկներ, որ տեսնես՝ որտեղից են գալիս x-ը, y-ը և արժեքները։</p>
         <div class="nav">
           <a href="#core">Հիմնական աղյուսակ</a>
-          <a href="#quadrants">Նշանների հիշում</a>
+          <a href="#memory">Ինչպես հիշել</a>
+          <a href="#quadrants">Քառորդների նշաններ</a>
           <a href="#extended">Լրացուցիչ անկյուններ</a>
           <a href="#circle">Միավոր շրջան</a>
           <a href="#graphs">Գրաֆիկներ</a>
@@ -317,6 +388,55 @@
           <div class="quick-card"><b>Unit circle</b><span>y = sin α</span></div>
           <div class="quick-card"><b>Ratio</b><span>tg α = y / x</span></div>
           <div class="quick-card"><b>Ratio</b><span>ctg α = x / y</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="memory-overview" id="memory" aria-label="How to remember trigonometric table">
+      <div class="memory-overview-head">
+        <div><h2>Ինչպես հիշել ամբողջ աղյուսակը</h2></div>
+        <p>Այս մասը հատուկ դրված է վերևում, որպեսզի տեսողական հիշես՝ պետք չէ բոլոր բջիջները առանձին անգիր անել։ Սովորիր առաջին քառորդը + նշանների քառորդները։</p>
+      </div>
+      <div class="memory-grid">
+        <div class="pattern-card">
+          <h3>1) Առաջին քառորդը՝ 0°, 30°, 45°, 60°, 90°</h3>
+          <div class="pattern-rows">
+            <div class="pattern-row" aria-label="Sin pattern">
+              <b>sin</b>
+              <span class="pattern-pill">√0/2 = 0</span>
+              <span class="pattern-pill">√1/2 = 1/2</span>
+              <span class="pattern-pill">√2/2</span>
+              <span class="pattern-pill">√3/2</span>
+              <span class="pattern-pill">√4/2 = 1</span>
+            </div>
+            <div class="pattern-row" aria-label="Cos pattern">
+              <b>cos</b>
+              <span class="pattern-pill">√4/2 = 1</span>
+              <span class="pattern-pill">√3/2</span>
+              <span class="pattern-pill">√2/2</span>
+              <span class="pattern-pill">√1/2 = 1/2</span>
+              <span class="pattern-pill">√0/2 = 0</span>
+            </div>
+          </div>
+          <p class="pattern-caption"><b>tg</b> և <b>ctg</b>-ն առանձին անգիր մի արա․ օգտագործիր <b>tg α = sin α / cos α</b>, <b>ctg α = cos α / sin α</b>։</p>
+        </div>
+
+        <div class="mini-sign-card">
+          <h3>2) Նշանները քառորդներով</h3>
+          <div class="mini-sign-grid">
+            <div class="mini-quad"><strong>I <span>0°–90°</span></strong><div class="sign-row"><span class="sign-pill sign-plus">sin +</span><span class="sign-pill sign-plus">cos +</span><span class="sign-pill sign-plus">tg +</span><span class="sign-pill sign-plus">ctg +</span></div></div>
+            <div class="mini-quad"><strong>II <span>90°–180°</span></strong><div class="sign-row"><span class="sign-pill sign-plus">sin +</span><span class="sign-pill sign-minus">cos −</span><span class="sign-pill sign-minus">tg −</span><span class="sign-pill sign-minus">ctg −</span></div></div>
+            <div class="mini-quad"><strong>III <span>180°–270°</span></strong><div class="sign-row"><span class="sign-pill sign-minus">sin −</span><span class="sign-pill sign-minus">cos −</span><span class="sign-pill sign-plus">tg +</span><span class="sign-pill sign-plus">ctg +</span></div></div>
+            <div class="mini-quad"><strong>IV <span>270°–360°</span></strong><div class="sign-row"><span class="sign-pill sign-minus">sin −</span><span class="sign-pill sign-plus">cos +</span><span class="sign-pill sign-minus">tg −</span><span class="sign-pill sign-minus">ctg −</span></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="reference-card">
+        <h3>3) Ցանկացած անկյուն գտնելու 3 քայլ</h3>
+        <div class="reference-steps">
+          <div><b>Քայլ 1</b>Բեր հենակետային անկյան․ օրինակ՝ 240° = 180° + 60°։</div>
+          <div><b>Քայլ 2</b>Վերցրու 60°-ի արժեքը առաջին քառորդից․ sin60° = √3/2։</div>
+          <div><b>Քայլ 3</b>Նշանը դիր ըստ քառորդի․ 240°-ը III քառորդում է, ուրեմն sin240° = −√3/2։</div>
         </div>
       </div>
     </section>
@@ -429,7 +549,7 @@
 
     <div class="section-title" id="extended">
       <div><h2>Լրացուցիչ օգտակար անկյուններ</h2></div>
-      <p>Քո վարժություններում կան նաև 15°, 22.5°, 120°, 150°, 225°, 315° և այլ անկյուններ։ Դրանց համար ավելի լավ է սովորել բերելու կանոնները, ոչ թե միայն անգիր աղյուսակ։</p>
+      <p>Այստեղ թողել եմ միայն այն անկյունները, որոնք չկան հիմնական մեծ աղյուսակում։ 120°, 135°, 150°, 210°, 225°, 240°, 300°, 315° արդեն կան հիմնական աղյուսակում, դրա համար այստեղ կրկնված չեն։</p>
     </div>
 
     <section class="table-card">
@@ -447,14 +567,6 @@
             <tr><th class="angle">22.5°</th><td>π/8</td><td>√(2 − √2)/2</td><td>√(2 + √2)/2</td><td>√2 − 1</td><td>45° / 2</td></tr>
             <tr><th class="angle">36°</th><td>π/5</td><td>√(10 − 2√5)/4</td><td>(1 + √5)/4</td><td>sin/cos</td><td>հանդիպում է π/5-ում</td></tr>
             <tr><th class="angle">54°</th><td>3π/10</td><td>(1 + √5)/4</td><td>√(10 − 2√5)/4</td><td>sin/cos</td><td>90° − 36°</td></tr>
-            <tr><th class="angle">120°</th><td>2π/3</td><td>√3/2</td><td>−1/2</td><td>−√3</td><td>180° − 60°</td></tr>
-            <tr><th class="angle">135°</th><td>3π/4</td><td>√2/2</td><td>−√2/2</td><td>−1</td><td>180° − 45°</td></tr>
-            <tr><th class="angle">150°</th><td>5π/6</td><td>1/2</td><td>−√3/2</td><td>−√3/3</td><td>180° − 30°</td></tr>
-            <tr><th class="angle">210°</th><td>7π/6</td><td>−1/2</td><td>−√3/2</td><td>√3/3</td><td>180° + 30°</td></tr>
-            <tr><th class="angle">225°</th><td>5π/4</td><td>−√2/2</td><td>−√2/2</td><td>1</td><td>180° + 45°</td></tr>
-            <tr><th class="angle">240°</th><td>4π/3</td><td>−√3/2</td><td>−1/2</td><td>√3</td><td>180° + 60°</td></tr>
-            <tr><th class="angle">300°</th><td>5π/3</td><td>−√3/2</td><td>1/2</td><td>−√3</td><td>360° − 60°</td></tr>
-            <tr><th class="angle">315°</th><td>7π/4</td><td>−√2/2</td><td>√2/2</td><td>−1</td><td>360° − 45°</td></tr>
             <tr><th class="angle">780°</th><td>13π/3</td><td>√3/2</td><td>1/2</td><td>√3</td><td>780° − 720° = 60°</td></tr>
             <tr><th class="angle">840°</th><td>14π/3</td><td>√3/2</td><td>−1/2</td><td>−√3</td><td>840° − 720° = 120°</td></tr>
           </tbody>
