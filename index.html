@@ -164,9 +164,108 @@
     .angle-card dd { margin:0; font-size:22px; font-weight:900; }
     .toast { position:fixed; left:50%; bottom:24px; transform:translateX(-50%) translateY(120px); padding:12px 18px; border-radius:999px; background:var(--text); color:var(--bg); font-weight:900; box-shadow:var(--shadow); transition:transform .24s ease; z-index:20; }
     .toast.show { transform:translateX(-50%) translateY(0); }
+
+    .quadrant-memory {
+      display: grid;
+      grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr);
+      gap: 18px;
+      align-items: stretch;
+    }
+    .quadrant-visual {
+      position: relative;
+      min-height: 410px;
+      border: 1px solid var(--line);
+      border-radius: 26px;
+      background:
+        radial-gradient(circle at center, var(--solid) 0 18%, transparent 19%),
+        linear-gradient(90deg, transparent calc(50% - 1px), var(--line) calc(50% - 1px), var(--line) calc(50% + 1px), transparent calc(50% + 1px)),
+        linear-gradient(0deg, transparent calc(50% - 1px), var(--line) calc(50% - 1px), var(--line) calc(50% + 1px), transparent calc(50% + 1px)),
+        var(--solid);
+      overflow: hidden;
+      padding: 18px;
+    }
+    .quadrant-center {
+      position: absolute;
+      left: 50%; top: 50%;
+      transform: translate(-50%, -50%);
+      width: 104px; height: 104px;
+      border-radius: 50%;
+      border: 1px solid var(--line);
+      background: linear-gradient(135deg, var(--soft), var(--blueSoft));
+      display: grid;
+      place-items: center;
+      color: var(--purple);
+      font-weight: 950;
+      text-align: center;
+      box-shadow: 0 16px 34px rgba(74, 37, 113, .12);
+    }
+    .quadrant-tile {
+      position: absolute;
+      width: calc(50% - 34px);
+      height: calc(50% - 34px);
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      background: rgba(255,255,255,.64);
+      padding: 15px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    [data-theme="dark"] .quadrant-tile { background: rgba(33,23,52,.72); }
+    .quadrant-tile.q1 { right: 18px; top: 18px; }
+    .quadrant-tile.q2 { left: 18px; top: 18px; }
+    .quadrant-tile.q3 { left: 18px; bottom: 18px; }
+    .quadrant-tile.q4 { right: 18px; bottom: 18px; }
+    .quad-title { display:flex; align-items:center; justify-content:space-between; gap:8px; font-weight:950; color:var(--purple); }
+    .quad-range { color:var(--muted); font-size:13px; font-weight:900; }
+    .quad-rule { font-size:15px; line-height:1.35; color:var(--text); font-weight:850; }
+    .sign-row { display:flex; flex-wrap:wrap; gap:6px; }
+    .sign-pill {
+      display:inline-flex;
+      align-items:center;
+      gap:5px;
+      padding:7px 9px;
+      border-radius:999px;
+      border:1px solid var(--line);
+      background:var(--solid);
+      font-weight:950;
+      font-size:13px;
+    }
+    .sign-plus { color:#14924d; background:var(--greenSoft); }
+    .sign-minus { color:#d63d64; background:var(--redSoft); }
+    .signs-panel { display:flex; flex-direction:column; gap:14px; }
+    .signs-table { width:100%; min-width:0; border-spacing:7px; table-layout:auto; }
+    .signs-table th, .signs-table td { padding:12px 10px; font-size:17px; }
+    .signs-table .quad-cell { color:var(--purple); font-weight:950; }
+    .sign-mark { font-size:24px; font-weight:950; }
+    .memory-method {
+      display:grid;
+      grid-template-columns: repeat(3, minmax(0,1fr));
+      gap:12px;
+      margin-top:14px;
+    }
+    .method-step {
+      border:1px solid var(--line);
+      border-radius:20px;
+      background:var(--solid);
+      padding:14px;
+      line-height:1.48;
+    }
+    .method-step b { display:block; color:var(--purple); margin-bottom:6px; }
+    .mnemonic {
+      border:1px solid var(--line);
+      border-radius:22px;
+      background:linear-gradient(135deg, var(--soft), transparent);
+      padding:16px;
+      line-height:1.55;
+      color:var(--muted);
+    }
+    .mnemonic strong { color:var(--purple); }
+
     @media (max-width: 980px) {
       .quick-formulas, .grid-3 { grid-template-columns:repeat(2,minmax(0,1fr)); }
-      .grid-2, .circle-layout { grid-template-columns:1fr; }
+      .grid-2, .circle-layout, .quadrant-memory { grid-template-columns:1fr; }
       .circle-box { max-width:430px; margin:0 auto; width:100%; }
       .section-title { flex-direction:column; align-items:start; }
     }
@@ -175,8 +274,11 @@
       .hero { padding:22px; }
       .topbar { flex-direction:column; align-items:flex-start; }
       .actions { justify-content:flex-start; }
-      .quick-formulas, .grid-3, .graph-grid, .important-list, .values-panel { grid-template-columns:1fr; }
+      .quick-formulas, .grid-3, .graph-grid, .important-list, .values-panel, .memory-method { grid-template-columns:1fr; }
       .table-tools { flex-direction:column; align-items:flex-start; }
+      .quadrant-visual { min-height: 680px; }
+      .quadrant-tile { position: static; width: 100%; height: auto; margin-bottom: 10px; }
+      .quadrant-center { position: static; transform:none; width:100%; height:auto; border-radius:18px; padding:12px; margin-bottom:10px; }
       .mobile-cards { display:grid; }
     }
     @media print {
@@ -205,6 +307,7 @@
         <p class="lead">Նախորդ աղյուսակը ցույց էր տալիս միայն ամենահիմնական անկյունները։ Այս տարբերակում կա նաև ավելի լայն անկյունների ցուցակ, միավոր շրջան, և sin, cos, tg, ctg ֆունկցիաների գրաֆիկներ, որ տեսնես՝ որտեղից են գալիս x-ը, y-ը և արժեքները։</p>
         <div class="nav">
           <a href="#core">Հիմնական աղյուսակ</a>
+          <a href="#quadrants">Նշանների հիշում</a>
           <a href="#extended">Լրացուցիչ անկյուններ</a>
           <a href="#circle">Միավոր շրջան</a>
           <a href="#graphs">Գրաֆիկներ</a>
@@ -248,6 +351,79 @@
             <tr><th class="label">ctg α</th><td class="undefined">—</td><td>√3</td><td>1</td><td><span class="frac"><span class="top">√3</span><span class="bottom">3</span></span></td><td>0</td><td><span class="frac"><span class="top">−√3</span><span class="bottom">3</span></span></td><td>−1</td><td>−√3</td><td class="undefined">—</td><td>√3</td><td>1</td><td><span class="frac"><span class="top">√3</span><span class="bottom">3</span></span></td><td>0</td><td><span class="frac"><span class="top">−√3</span><span class="bottom">3</span></span></td><td>−1</td><td class="undefined">—</td></tr>
           </tbody>
         </table>
+      </div>
+    </section>
+
+    <div class="section-title" id="quadrants">
+      <div><h2>Ինչպես հիշել նշանները քառորդներով</h2></div>
+      <p>Ամբողջ մեծ աղյուսակը պետք չէ առանձին անգիր անել։ Գտիր հիմնական անկյունը, հետո միայն որոշիր նշանը՝ ըստ քառորդի։</p>
+    </div>
+
+    <section class="card">
+      <div class="quadrant-memory">
+        <div class="quadrant-visual" aria-label="Quadrant sign memory visual">
+          <div class="quadrant-center">Քառորդների<br>նշաններ</div>
+          <div class="quadrant-tile q1">
+            <div class="quad-title"><span>I քառորդ</span><span class="quad-range">0°–90°</span></div>
+            <div class="quad-rule">Բոլորը դրական են</div>
+            <div class="sign-row">
+              <span class="sign-pill sign-plus">sin +</span><span class="sign-pill sign-plus">cos +</span><span class="sign-pill sign-plus">tg +</span><span class="sign-pill sign-plus">ctg +</span>
+            </div>
+          </div>
+          <div class="quadrant-tile q2">
+            <div class="quad-title"><span>II քառորդ</span><span class="quad-range">90°–180°</span></div>
+            <div class="quad-rule">Միայն sin-ն է դրական</div>
+            <div class="sign-row">
+              <span class="sign-pill sign-plus">sin +</span><span class="sign-pill sign-minus">cos −</span><span class="sign-pill sign-minus">tg −</span><span class="sign-pill sign-minus">ctg −</span>
+            </div>
+          </div>
+          <div class="quadrant-tile q3">
+            <div class="quad-title"><span>III քառորդ</span><span class="quad-range">180°–270°</span></div>
+            <div class="quad-rule">tg և ctg-ն են դրական</div>
+            <div class="sign-row">
+              <span class="sign-pill sign-minus">sin −</span><span class="sign-pill sign-minus">cos −</span><span class="sign-pill sign-plus">tg +</span><span class="sign-pill sign-plus">ctg +</span>
+            </div>
+          </div>
+          <div class="quadrant-tile q4">
+            <div class="quad-title"><span>IV քառորդ</span><span class="quad-range">270°–360°</span></div>
+            <div class="quad-rule">Միայն cos-ն է դրական</div>
+            <div class="sign-row">
+              <span class="sign-pill sign-minus">sin −</span><span class="sign-pill sign-plus">cos +</span><span class="sign-pill sign-minus">tg −</span><span class="sign-pill sign-minus">ctg −</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="signs-panel">
+          <div class="table-card" style="box-shadow:none;">
+            <div class="table-tools">
+              <strong>Նշանների կարճ աղյուսակ</strong>
+              <span>I → բոլորը, II → sin, III → tg/ctg, IV → cos</span>
+            </div>
+            <div class="table-wrap">
+              <table class="signs-table" aria-label="Quadrant signs table">
+                <thead>
+                  <tr><th>Քառորդ</th><th>Անկյուններ</th><th>sin</th><th>cos</th><th>tg</th><th>ctg</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td class="quad-cell">I</td><td>0°–90°</td><td class="sign-mark sign-plus">+</td><td class="sign-mark sign-plus">+</td><td class="sign-mark sign-plus">+</td><td class="sign-mark sign-plus">+</td></tr>
+                  <tr><td class="quad-cell">II</td><td>90°–180°</td><td class="sign-mark sign-plus">+</td><td class="sign-mark sign-minus">−</td><td class="sign-mark sign-minus">−</td><td class="sign-mark sign-minus">−</td></tr>
+                  <tr><td class="quad-cell">III</td><td>180°–270°</td><td class="sign-mark sign-minus">−</td><td class="sign-mark sign-minus">−</td><td class="sign-mark sign-plus">+</td><td class="sign-mark sign-plus">+</td></tr>
+                  <tr><td class="quad-cell">IV</td><td>270°–360°</td><td class="sign-mark sign-minus">−</td><td class="sign-mark sign-plus">+</td><td class="sign-mark sign-minus">−</td><td class="sign-mark sign-minus">−</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="mnemonic">
+            <strong>Հիշելու ձևը.</strong> I-ում բոլորը + են, II-ում միայն <b>sin</b>, III-ում <b>tg/ctg</b>, IV-ում միայն <b>cos</b>։ Այս մի կանոնը բավական է 120°, 135°, 150°, 210°, 225°, 240°, 300°, 315° արժեքների նշանները ճիշտ դնելու համար։
+          </div>
+
+          <div class="memory-method">
+            <div class="method-step"><b>Քայլ 1</b>Գտիր հենակետային անկյունը՝ 30°, 45° կամ 60°։ Օրինակ՝ 240° = 180° + 60°։</div>
+            <div class="method-step"><b>Քայլ 2</b>Վերցրու արժեքի չափը առաջին քառորդից։ Օրինակ՝ sin60° = √3/2։</div>
+            <div class="method-step"><b>Քայլ 3</b>Նշանը դիր ըստ քառորդի։ 240°-ը III քառորդում է, ուրեմն sin-ը բացասական է՝ sin240° = −√3/2։</div>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -369,7 +545,7 @@
 
     <section class="important-list">
       <div class="info-box"><b>1. Բերել հիմնական անկյան</b>Օրինակ՝ 840° = 720° + 120°, ուրեմն sin840° = sin120°։</div>
-      <div class="info-box"><b>2. Նշանը կախված է քառորդից</b>I-ում բոլորը + են, II-ում sin-ը + է, III-ում tg/ctg-ն + են, IV-ում cos-ը + է։</div>
+      <div class="info-box"><b>2. Նշանը կախված է քառորդից</b>I-ում բոլորը + են, II-ում միայն sin-ն է +, III-ում tg/ctg-ն են +, IV-ում միայն cos-ն է +։</div>
       <div class="info-box"><b>3. Լրացուցիչ անկյուններ</b>sin(180° − α) = sin α, cos(180° − α) = −cos α։</div>
       <div class="info-box"><b>4. Կիսանկյուններ</b>22.5°-ը գալիս է 45°/2-ից, իսկ 15°-ը կարելի է ստանալ 45° − 30°-ով։</div>
     </section>

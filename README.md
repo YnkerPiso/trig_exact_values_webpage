@@ -8,3 +8,5 @@ Updates in this version:
 - Unit circle and function graph visuals are included.
 
 Open `index.html` in a browser or upload the files to GitHub Pages.
+
+Update: ավելացվել է քառորդների նշանների հիշելու բաժին՝ I/II/III/IV քառորդների sin/cos/tg/ctg նշաններով և 3-քայլանոց հիշելու մեթոդով։
